@@ -8,7 +8,9 @@ import {
   type Track,
 } from '@/lib/findings'
 
-export const dynamic = 'force-dynamic'
+import { IS_PAGES_EXPORT } from '@/lib/pages-export'
+
+export const dynamic = IS_PAGES_EXPORT ? 'force-static' : 'force-dynamic'
 export const revalidate = 3600
 
 export async function GET(request: Request) {

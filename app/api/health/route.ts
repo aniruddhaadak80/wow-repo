@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 
-export const dynamic = 'force-dynamic'
+import { getSkillEntries } from '@/lib/registry'
+import { IS_PAGES_EXPORT } from '@/lib/pages-export'
+
+export const dynamic = IS_PAGES_EXPORT ? 'force-static' : 'force-dynamic'
 
 export async function GET() {
   return NextResponse.json(

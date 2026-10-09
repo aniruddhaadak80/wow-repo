@@ -1,8 +1,8 @@
 import { CatalogSearch } from '@/components/catalog-search'
-import { getSkillEntries } from '@/lib/registry'
+import { getEntries } from '@/lib/registry'
 
 export function Hero() {
-  const entries = getSkillEntries()
+  const entries = getEntries()
 
   return (
     <section className="container-x grid items-center gap-12 py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:py-24">
@@ -10,9 +10,9 @@ export function Hero() {
         <h1 className="text-5xl leading-[1.04] font-bold tracking-tighter sm:text-6xl lg:text-7xl">
           Skills that ship. Sites that <em className="text-accent italic">wow</em>.
         </h1>
-        <p className="text-muted mt-6 max-w-[52ch] text-lg leading-relaxed">
-          A production-ready Next.js showcase of curated agent skills: installable capabilities for
-          coding, design, research, and content.
+        <p className="text-muted mt-6 max-w-[58ch] text-lg leading-relaxed">
+          The open agent stack in one place: skills, MCP servers, public APIs, protocols, harnesses,
+          and free software.
         </p>
         <div className="mt-9 flex flex-wrap items-center gap-3">
           <a

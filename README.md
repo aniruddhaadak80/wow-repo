@@ -2,7 +2,7 @@
 
 [![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Faniruddhaadak80%2Fwow-repo&project-name=wow-repo&repository-name=wow-repo)
 
-A production-ready Next.js showcase of curated agent skills. Built to make people say **wow**.
+A production-ready Next.js showcase of the open agent stack: skills, MCP servers, public APIs, protocols, harnesses, and free software, in one searchable registry. Built to make people say **wow**.
 
 Skills that ship. Sites that wow.
 
@@ -24,8 +24,8 @@ Most "wow" repos are a hero, three cards, and a gradient. This one is a working 
 **Registry showcase** (`content/registry.ts`, 108 entries across six kinds)
 
 - Skills, MCP servers, APIs, protocols, harnesses, and software, each with a real command and a real link
-- `/skills` index with search and craft filters over the skill subset
-- `/skills/[slug]` detail pages with triggers, copyable commands, and related entries
+- `/skills` index with search, kind tabs, and craft filters over all 108 entries
+- `/skills/[slug]` detail pages with triggers, a copyable command, the source link, and related entries
 - `/agents`: a demo org of 24 agents across eight departments, with a replayable orchestration run
 - `/discoveries`: a sourced log of scientific findings, plus published curves on machine-research speed
 - Global Cmd/Ctrl+K command palette
@@ -40,8 +40,8 @@ Most "wow" repos are a hero, three cards, and a gradient. This one is a working 
 **Vercel optimization**
 
 - Static generation with ISR (`revalidate = 3600`) on catalog pages
-- `generateStaticParams` for all skill routes
-- Edge-cached JSON API (`/api/skills`) with `stale-while-revalidate`
+- `generateStaticParams` for every registry route (129 static pages)
+- Edge-cached JSON API (`/api/skills?kind=&craft=&q=`) with `stale-while-revalidate`
 - AVIF/WebP images, `optimizePackageImports`, security headers
 - `next/og` generated social cards, `sitemap.xml`, `robots.txt`, JSON-LD, web manifest
 - Vercel Analytics and Speed Insights mounted in the root layout

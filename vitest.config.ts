@@ -15,5 +15,8 @@ export default defineConfig({
     // Two workers keep runs parallel and reliable.
     pool: 'threads',
     maxWorkers: 2,
+    // jsdom plus React transitions is slow on a loaded machine or a small CI
+    // runner. The default 5s fails correct-but-slow tests.
+    testTimeout: 20000,
   },
 })

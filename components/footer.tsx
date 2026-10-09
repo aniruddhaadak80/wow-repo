@@ -27,7 +27,7 @@ export function Footer() {
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link href="/skills" className="text-muted hover:text-ink transition-colors">
-                  Explore skills
+                  Browse the registry
                 </Link>
               </li>
               <li>

@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time. Please check the [open issues](https://github.com/aniruddhaadak/wow-repo/issues) first, and run `bun run check` on `main` so we know it is not a local setup problem.
+        Thanks for taking the time. Please check the [open issues](https://github.com/aniruddhaadak80/wow-repo/issues) first, and run `bun run check` on `main` so we know it is not a local setup problem.
 
   - type: textarea
     id: what-happened

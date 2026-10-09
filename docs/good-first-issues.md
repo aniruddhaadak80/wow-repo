@@ -15,7 +15,7 @@ Copy the section under each heading, paste it into the body of a new issue, and
 apply the labels listed in that section:
 
 ```bash
-gh issue create --repo aniruddhaadak/wow-repo --web
+gh issue create --repo aniruddhaadak80/wow-repo --web
 ```
 
 The label `good first issue` has to be spelled exactly like that: it is what

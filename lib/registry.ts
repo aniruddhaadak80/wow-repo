@@ -15,13 +15,9 @@ export function getEntries(): RegistryEntry[] {
   return entries
 }
 
-/** Skills only: the subset the /skills routes render. */
+/** The skill subset: what the phone app and the skills hero render. */
 export function getSkillEntries(): RegistryEntry[] {
   return getEntriesByKind('skill')
-}
-
-export function getSkillSlugs(): string[] {
-  return getSkillEntries().map((entry) => entry.slug)
 }
 
 export function getEntryBySlug(slug: string): RegistryEntry | undefined {

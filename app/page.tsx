@@ -8,7 +8,6 @@ import { Benchmarks } from '@/components/sections/benchmarks'
 import { CompanyBand } from '@/components/sections/company-band'
 import { PreflightLedger } from '@/components/sections/preflight-ledger'
 import { FrontierLog } from '@/components/sections/frontier-log'
-import { ExplosionCurve } from '@/components/sections/explosion-curve'
 import { Manifesto } from '@/components/sections/manifesto'
 import { Faq } from '@/components/sections/faq'
 import { Contribute } from '@/components/sections/contribute'
@@ -21,7 +20,7 @@ const jsonLd = {
   name: 'wow-repo',
   url: SITE_URL,
   description:
-    'A production-ready Next.js showcase of curated agent skills: installable capabilities for coding, design, research, and content.',
+    'A production-ready Next.js showcase of the open agent stack: skills, MCP servers, public APIs, protocols, harnesses, and free software.',
   potentialAction: {
     '@type': 'SearchAction',
     target: `${SITE_URL}/skills?q={query}`,
@@ -46,7 +45,6 @@ export default function HomePage() {
       <CompanyBand />
       <PreflightLedger />
       <FrontierLog />
-      <ExplosionCurve />
       <Manifesto />
       <Faq />
       <Contribute />

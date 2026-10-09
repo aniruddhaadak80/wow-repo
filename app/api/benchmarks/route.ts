@@ -17,7 +17,9 @@ import {
  * for an hour and revalidates in the background. Do not add `revalidate` here;
  * prerendering a parameterised response would ignore the query string.
  */
-export const dynamic = 'force-dynamic'
+import { IS_PAGES_EXPORT } from '@/lib/pages-export'
+
+export const dynamic = IS_PAGES_EXPORT ? 'force-static' : 'force-dynamic'
 
 const SORT_KEYS: SortKey[] = ['score', 'delta', 'latency', 'cost', 'name']
 

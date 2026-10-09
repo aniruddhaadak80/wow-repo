@@ -13,6 +13,7 @@ import {
   Sun,
 } from '@phosphor-icons/react'
 import { EASE, GITHUB_URL, Z } from '@/lib/constants'
+import { KIND_META } from '@/content/registry'
 import { queryEntries } from '@/lib/registry'
 import { usePalette } from '@/components/palette-provider'
 import { useTheme } from '@/components/theme-provider'
@@ -83,7 +84,7 @@ function PalettePanel() {
     () => [
       {
         id: 'action-explore',
-        label: 'Explore skills',
+        label: 'Browse the registry',
         hint: 'Page',
         icon: <Package weight="regular" className="h-4 w-4" />,
         run: () => router.push('/skills'),
@@ -231,7 +232,7 @@ function PalettePanel() {
 
         {filteredSkills.length > 0 && (
           <li className="mono-label px-3 pt-3 pb-1" aria-hidden="true">
-            Skills
+            Registry
           </li>
         )}
         {filteredSkills.map((skill, i) => {
@@ -258,6 +259,7 @@ function PalettePanel() {
                   <span className="text-ink block font-medium">{skill.name}</span>
                   <span className="text-muted block truncate text-xs">{skill.tagline}</span>
                 </span>
+                <span className="mono-label shrink-0">{KIND_META[skill.kind].label}</span>
                 {current === activeIndex && (
                   <Check weight="regular" className="text-accent h-4 w-4" />
                 )}

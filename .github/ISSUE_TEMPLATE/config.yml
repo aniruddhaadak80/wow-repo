@@ -1,14 +1,14 @@
 blank_issues_enabled: false
 contact_links:
   - name: Contributing guide
-    url: https://github.com/aniruddhaadak/wow-repo/blob/main/CONTRIBUTING.md
+    url: https://github.com/aniruddhaadak80/wow-repo/blob/main/CONTRIBUTING.md
     about: The bar for a merge, the local setup, and the commit style.
   - name: Hacktoberfest
-    url: https://github.com/aniruddhaadak/wow-repo/blob/main/HACKTOBERFEST.md
+    url: https://github.com/aniruddhaadak80/wow-repo/blob/main/HACKTOBERFEST.md
     about: The first wave of good first issues and how to claim one.
   - name: Good first issues
-    url: https://github.com/aniruddhaadak/wow-repo/blob/main/docs/good-first-issues.md
+    url: https://github.com/aniruddhaadak80/wow-repo/blob/main/docs/good-first-issues.md
     about: Five issues with the files and acceptance criteria already written.
   - name: Ask a question
-    url: https://github.com/aniruddhaadak/wow-repo/discussions
+    url: https://github.com/aniruddhaadak80/wow-repo/discussions
     about: Usage questions, design opinions, and anything that is not a bug.

@@ -11,7 +11,7 @@ import { usePalette } from '@/components/palette-provider'
 import { useTheme } from '@/components/theme-provider'
 
 const NAV_LINKS = [
-  { label: 'Explore skills', href: '/skills' },
+  { label: 'Browse the registry', href: '/skills' },
   { label: 'Frontier log', href: '/discoveries' },
   { label: 'Benchmarks', href: '/#benchmarks' },
   { label: 'How it works', href: '/#how' },

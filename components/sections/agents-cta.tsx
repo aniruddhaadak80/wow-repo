@@ -31,7 +31,7 @@ export function AgentsCta() {
           href="/skills"
           className="border-line text-ink hover:border-ink/30 flex h-12 items-center rounded-full border px-7 text-sm font-medium transition-colors duration-200"
         >
-          Browse skills
+          Browse the registry
           <ArrowUpRight weight="regular" className="ml-1.5 h-3.5 w-3.5" />
         </Link>
       </div>
