@@ -6,6 +6,7 @@ import { PaletteProvider } from '@/components/palette-provider'
 import { Nav } from '@/components/nav'
 import { Footer } from '@/components/footer'
 import { CommandPalette } from '@/components/command-palette'
+import { ShortcutsDialog } from '@/components/shortcuts-dialog'
 import { MobileTabBar } from '@/components/mobile-tab-bar'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -99,6 +100,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
             <MobileTabBar />
             <CommandPalette />
+            <ShortcutsDialog />
             <Analytics />
             <SpeedInsights />
           </PaletteProvider>

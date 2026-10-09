@@ -28,6 +28,7 @@ Most "wow" repos are a hero, three cards, and a gradient. This one is a working 
 - `/skills/[slug]` detail pages with triggers, a copyable command, the source link, and related entries
 - `/agents`: a demo org of 24 agents across eight departments, with a replayable orchestration run
 - `/discoveries`: a sourced log of scientific findings, plus published curves on machine-research speed
+- `/superintelligence`: After the world, 31 sourced entries across five kinds (scenarios, papers, books, voices, researchers) with kind and topic filters, detail pages, and a JSON API
 - Global Cmd/Ctrl+K command palette
 
 **Working demos, not screenshots**
@@ -36,6 +37,15 @@ Most "wow" repos are a hero, three cards, and a gradient. This one is a working 
 - A phone mini-app: search, open, and "install" a skill inside a device frame
 - The swarm runner: a lead agent fans a task out to real registry entries and merges the reports
 - The benchmark scoreboard: sortable runs over typed benchmark content
+
+**Comparison, docs, and feeds**
+
+- `/compare`: put up to four registry entries side by side (kind, craft, command, licence, source, added date), with the selection in the URL so a comparison is a shareable link
+- `/docs`: the in-repo documentation of architecture, design system, motion, accessibility, both deploy targets, and the quality gates, rendered from `content/docs.ts`
+- `/random`: entry roulette that lands on a random registry entry, never twice in a row per session
+- `/feed.xml`: an RSS feed of the 30 newest registry entries
+- Keyboard shortcuts: `?` opens the dialog, `g` then `s`/`c`/`d`/`r` navigates, and every binding has a pointer equivalent
+- ItemList and BreadcrumbList JSON-LD on the home page alongside the existing WebSite schema
 
 **Vercel optimization**
 
@@ -53,6 +63,7 @@ Most "wow" repos are a hero, three cards, and a gradient. This one is a working 
 - Vitest + Testing Library, including dataset integrity tests (unique slugs, valid kinds, real URLs)
 - `bun run check` runs typecheck, lint, format check, tests, and build
 - GitHub Actions CI on every push and PR
+- Lighthouse CI on every push to main, with performance, accessibility, best-practices, and SEO thresholds in `.lighthouserc.json`
 - Loading, error, and 404 boundaries with skeletons
 
 ## Quickstart
@@ -117,7 +128,7 @@ Live badges:
 app/                    # App Router: pages, API routes, metadata, og image
 components/             # Section components and interactive islands
 components/sections/    # One file per page section
-content/                # Typed content modules: registry, findings, benchmarks, preflight rules
+content/                # Typed content modules: registry, findings, superintelligence, benchmarks, preflight rules
 content/issues.ts       # The good-first-issue list the Contribute section renders
 lib/                    # Queries, constants, helpers
 docs/                   # Contributor docs: good first issues, design system

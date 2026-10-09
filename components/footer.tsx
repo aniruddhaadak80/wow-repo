@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { GithubLogo, ArrowUpRight } from '@phosphor-icons/react/ssr'
 import { GITHUB_URL } from '@/lib/constants'
+import { ShortcutsHint } from '@/components/shortcuts-dialog'
 
 export function Footer() {
   return (
@@ -13,13 +14,14 @@ export function Footer() {
           wow<span className="text-accent/20">*</span>
         </p>
 
-        <div className="border-line mt-10 grid gap-10 border-t pt-8 md:grid-cols-[1.5fr_1fr_1fr]">
+        <div className="border-line mt-10 grid gap-10 border-t pt-8 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div>
             <p className="text-muted max-w-[42ch] text-sm leading-relaxed">
               A production-ready Next.js showcase of curated agent skills. Installable capabilities
               for coding, design, research, and content.
             </p>
             <p className="mono-label mt-4">{new Date().getFullYear()} wow-repo · MIT licensed</p>
+            <ShortcutsHint className="mt-2" />
           </div>
 
           <nav aria-label="Footer">
@@ -33,6 +35,14 @@ export function Footer() {
               <li>
                 <Link href="/discoveries" className="text-muted hover:text-ink transition-colors">
                   Frontier log
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/superintelligence"
+                  className="text-muted hover:text-ink transition-colors"
+                >
+                  After the world
                 </Link>
               </li>
               <li>
@@ -83,6 +93,15 @@ export function Footer() {
               </li>
               <li>
                 <Link
+                  href="/api/superintelligence"
+                  className="text-muted hover:text-ink inline-flex items-center gap-1.5 transition-colors"
+                >
+                  After the world API
+                  <ArrowUpRight weight="regular" className="h-3.5 w-3.5" />
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/api/benchmarks"
                   className="text-muted hover:text-ink inline-flex items-center gap-1.5 transition-colors"
                 >
@@ -97,6 +116,36 @@ export function Footer() {
                 >
                   Sitemap
                   <ArrowUpRight weight="regular" className="h-3.5 w-3.5" />
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/feed.xml"
+                  className="text-muted hover:text-ink inline-flex items-center gap-1.5 transition-colors"
+                >
+                  RSS feed
+                  <ArrowUpRight weight="regular" className="h-3.5 w-3.5" />
+                </Link>
+              </li>
+            </ul>
+          </nav>
+
+          <nav aria-label="Explore">
+            <p className="mono-label mb-3">Explore</p>
+            <ul className="space-y-2.5 text-sm">
+              <li>
+                <Link href="/compare" className="text-muted hover:text-ink transition-colors">
+                  Compare entries
+                </Link>
+              </li>
+              <li>
+                <Link href="/docs" className="text-muted hover:text-ink transition-colors">
+                  Docs
+                </Link>
+              </li>
+              <li>
+                <Link href="/random" className="text-muted hover:text-ink transition-colors">
+                  Surprise me
                 </Link>
               </li>
             </ul>
