@@ -11,7 +11,7 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: oven-sh/setup-bun@v2
         with:
@@ -27,11 +27,3 @@ jobs:
         run: |
           npm install --no-save @lhci/cli@0.14.x
           npx lhci autorun
-
-      - name: Upload the report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: lighthouse-report
-          path: .lighthouseci
-          retention-days: 7
