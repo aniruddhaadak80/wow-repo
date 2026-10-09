@@ -1,6 +1,13 @@
 import type { MetadataRoute } from 'next'
 
 /*
+ * Static content, revalidated hourly. The literal config is also what the
+ * GitHub Pages static export needs: route segment config cannot be computed,
+ * so it is written once and read by both deploy targets.
+ */
+export const revalidate = 3600
+
+/*
  * PWA manifest. The site installs to a home screen and launches standalone,
  * which is what makes the "app" in the app showcase a real app rather than a
  * picture of one. Icons are SVG with sizes "any" so they serve every density

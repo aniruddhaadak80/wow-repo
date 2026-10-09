@@ -66,6 +66,35 @@ bun run check      # typecheck + lint + format + test + build
 bun run analyze    # bundle analysis
 ```
 
+## Deploy
+
+Two targets, one codebase. Both build from `main` with no extra configuration.
+
+| Target             | URL                                         | What runs there                                                             |
+| ------------------ | ------------------------------------------- | --------------------------------------------------------------------------- |
+| Vercel (canonical) | https://wow-repo.vercel.app                 | Full app: ISR, the JSON APIs, image optimization, Analytics, Speed Insights |
+| GitHub Pages       | https://aniruddhaadak80.github.io/wow-repo/ | Static export of the same site (`.github/workflows/pages.yml`)              |
+
+```bash
+# Vercel, from a clean checkout
+npx vercel --prod
+
+# GitHub Pages is already wired: push to main and .github/workflows/pages.yml
+# builds with GH_PAGES=true and deploys the out/ directory.
+```
+
+The same `next.config.ts` serves both. When `GH_PAGES=true` it emits a fully
+static export with the repo-name basePath and no image optimizer, because Pages
+has no server. Vercel builds leave the variable unset and keep ISR plus the
+`/api/*` routes. The exported API routes return the full dataset: there is no
+server on Pages to read a query string.
+
+Live badges:
+
+[![CI](https://github.com/aniruddhaadak80/wow-repo/actions/workflows/ci.yml/badge.svg)](https://github.com/aniruddhaadak80/wow-repo/actions/workflows/ci.yml)
+[![Pages](https://github.com/aniruddhaadak80/wow-repo/actions/workflows/pages.yml/badge.svg)](https://github.com/aniruddhaadak80/wow-repo/actions/workflows/pages.yml)
+[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Faniruddhaadak80%2Fwow-repo&project-name=wow-repo&repository-name=wow-repo)
+
 ## Stack
 
 | Layer     | Choice                          |

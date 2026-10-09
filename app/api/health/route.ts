@@ -1,17 +1,23 @@
 import { NextResponse } from 'next/server'
-
-import { getSkillEntries } from '@/lib/registry'
 import { IS_PAGES_EXPORT } from '@/lib/pages-export'
 
-export const dynamic = IS_PAGES_EXPORT ? 'force-static' : 'force-dynamic'
+/*
+ * `revalidate` is a literal (the static export needs one) while the response
+ * stays `no-store`, so the CDN and browsers never serve a cached health body.
+ */
+export const revalidate = 3600
 
 export async function GET() {
-  return NextResponse.json(
-    { status: 'ok', timestamp: new Date().toISOString() },
-    {
-      headers: {
-        'Cache-Control': 'no-store',
-      },
+  // A static export has no server and no clock of its own: the timestamp would
+  // freeze at build time and quietly tell whoever polled it that the site was
+  // deployed then. The exported route reports status only, which stays true.
+  const body = IS_PAGES_EXPORT
+    ? { status: 'ok' }
+    : { status: 'ok', timestamp: new Date().toISOString() }
+
+  return NextResponse.json(body, {
+    headers: {
+      'Cache-Control': 'no-store',
     },
-  )
+  })
 }

@@ -2,6 +2,8 @@ import type { MetadataRoute } from 'next'
 import { getEntrySlugs } from '@/lib/registry'
 import { SITE_URL } from '@/lib/constants'
 
+export const revalidate = 3600
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const slugs = getEntrySlugs()
   const now = new Date()

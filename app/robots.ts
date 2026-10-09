@@ -1,6 +1,8 @@
 import type { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/constants'
 
+export const revalidate = 3600
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [

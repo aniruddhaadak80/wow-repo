@@ -6,6 +6,10 @@
  */
 import { ImageResponse } from 'next/og'
 
+// Static metadata route: revalidated hourly, and required for the GitHub Pages
+// static export, which refuses a route with no literal segment config.
+export const revalidate = 3600
+
 export const alt = 'wow-repo: a showcase of curated agent skills'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
