@@ -13,7 +13,7 @@ import { useTheme } from '@/components/theme-provider'
 const NAV_LINKS = [
   { label: 'Browse the registry', href: '/skills' },
   { label: 'Frontier log', href: '/discoveries' },
-  { label: 'Benchmarks', href: '/#benchmarks' },
+  { label: 'After the world', href: '/superintelligence' },
   { label: 'How it works', href: '/#how' },
   { label: 'Contribute', href: '/#contribute' },
 ] as const

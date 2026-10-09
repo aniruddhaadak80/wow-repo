@@ -10,6 +10,7 @@ import {
   MagnifyingGlass,
   Moon,
   Package,
+  Quotes,
   Sun,
 } from '@phosphor-icons/react'
 import { EASE, GITHUB_URL, Z } from '@/lib/constants'
@@ -95,6 +96,13 @@ function PalettePanel() {
         hint: 'Page',
         icon: <Books weight="regular" className="h-4 w-4" />,
         run: () => router.push('/discoveries'),
+      },
+      {
+        id: 'action-after',
+        label: 'After the world',
+        hint: 'Page',
+        icon: <Quotes weight="regular" className="h-4 w-4" />,
+        run: () => router.push('/superintelligence'),
       },
       {
         id: 'action-theme',
