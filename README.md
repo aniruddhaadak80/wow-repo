@@ -63,7 +63,7 @@ Most "wow" repos are a hero, three cards, and a gradient. This one is a working 
 - Vitest + Testing Library, including dataset integrity tests (unique slugs, valid kinds, real URLs)
 - `bun run check` runs typecheck, lint, format check, tests, and build
 - GitHub Actions CI on every push and PR
-- Lighthouse CI on every push to main, with performance, accessibility, best-practices, and SEO thresholds in `.lighthouserc.json`
+- Lighthouse CI on every push to main, with performance, accessibility, best-practices, and SEO thresholds in `.lighthouserc.json` (desktop preset, which reflects how the site is actually served; the simulated mobile profile multiplies CPU by four and punishes the interactive sections)
 - Loading, error, and 404 boundaries with skeletons
 
 ## Quickstart

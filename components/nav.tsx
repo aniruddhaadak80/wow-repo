@@ -49,7 +49,7 @@ export function Nav() {
       style={{ zIndex: Z.sticky }}
     >
       <div className="container-x flex h-16 items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2.5" aria-label="wow-repo home">
+        <Link href="/" className="flex items-center gap-2.5" aria-label="wow* home">
           <span className="bg-accent text-on-accent flex h-7 w-7 items-center justify-center rounded-lg font-mono text-sm font-bold">
             w
           </span>

@@ -20,7 +20,7 @@ function Word({
   progress: ReturnType<typeof useScroll>['scrollYProgress']
   reduce: boolean
 }) {
-  const opacity = useTransform(progress, range, [0.14, 1])
+  const y = useTransform(progress, range, ['110%', '0%'])
   const isAccent = ACCENT_WORDS.has(children)
 
   if (reduce) {
@@ -29,13 +29,18 @@ function Word({
     )
   }
 
+  /*
+   * Words slide up from behind a clip instead of fading in, so the text is
+   * always fully opaque: the reveal animates transform only, and contrast
+   * stays at full color the whole way. The negative margin cancels the clip
+   * padding, so baselines do not shift between the two paths.
+   */
   return (
-    <motion.span
-      style={{ opacity }}
-      className={cn('mr-[0.26em] inline-block', isAccent && 'text-accent')}
-    >
-      {children}
-    </motion.span>
+    <span className="mr-[0.26em] mb-[-0.15em] inline-block overflow-hidden pb-[0.15em]">
+      <motion.span style={{ y }} className={cn('inline-block', isAccent && 'text-accent')}>
+        {children}
+      </motion.span>
+    </span>
   )
 }
 

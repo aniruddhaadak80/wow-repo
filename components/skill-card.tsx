@@ -18,7 +18,7 @@ export function SkillCard({ entry }: { entry: RegistryEntry }) {
           {KIND_META[entry.kind].label}
         </span>
       </div>
-      <h3 className="text-ink font-medium tracking-tight">{entry.name}</h3>
+      <h2 className="text-ink font-medium tracking-tight">{entry.name}</h2>
       <p className="text-muted mt-1 text-sm leading-relaxed">{entry.tagline}</p>
       <div className="mt-auto flex items-center justify-between gap-3 pt-5">
         <span className="text-muted font-mono text-xs">{entry.craft}</span>

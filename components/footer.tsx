@@ -8,11 +8,9 @@ export function Footer() {
     <footer className="border-line border-t">
       <div className="container-x pt-16 pb-10">
         <p
-          className="text-ink/5 font-sans text-[19vw] leading-[0.8] font-bold tracking-tighter select-none sm:text-[13rem]"
+          className="decorative-wordmark font-sans text-[19vw] leading-[0.8] font-bold tracking-tighter select-none sm:text-[13rem]"
           aria-hidden="true"
-        >
-          wow<span className="text-accent/20">*</span>
-        </p>
+        />
 
         <div className="border-line mt-10 grid gap-10 border-t pt-8 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div>

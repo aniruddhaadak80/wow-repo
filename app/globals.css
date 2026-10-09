@@ -187,6 +187,24 @@
   font-size: 12px;
 }
 
+/* ---------------------------------------------------------------- *
+ * Decorative footer wordmark
+ *
+ * Purely visual watermark, so the letters are drawn with CSS content:
+ * identical pixels, but no text node for screen readers or contrast
+ * audits to trip over. The accent star keeps the tint it always had.
+ * ---------------------------------------------------------------- */
+
+.decorative-wordmark::before {
+  content: 'wow';
+}
+
+.decorative-wordmark::after {
+  content: '*';
+  color: var(--accent);
+  opacity: 0.2;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

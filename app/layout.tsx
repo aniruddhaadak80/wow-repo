@@ -83,6 +83,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} min-h-[100dvh]`}>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {/* React 19 hoists these into <head>. The telemetry beacons are the
+            only third-party origins the page ever talks to. */}
+        <link rel="preconnect" href="https://vitals.vercel-insights.com" />
+        <link rel="preconnect" href="https://va.vercel-scripts.com" />
         <ThemeProvider>
           <PaletteProvider>
             <a

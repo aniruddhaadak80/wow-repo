@@ -89,7 +89,7 @@ export function SkillsExplorer() {
               )}
             >
               {option === 'All' ? 'Everything' : KIND_META[option].label}
-              <span className="ml-2 font-mono text-xs opacity-70">{count}</span>
+              <span className="ml-2 font-mono text-xs">{count}</span>
             </button>
           )
         })}
