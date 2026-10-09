@@ -154,6 +154,18 @@ path those issues name still exists, so a stale issue fails the suite.
 - **Motion is motivated.** Every animation communicates something: the phone navigates, the swarm reports, the numbers count up once.
 - **Honest numbers.** Counts are computed at build time; sample data says so on the surface that renders it.
 
+## Deploying
+
+| Target                                                                                                               | URL                                                  |
+| -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| GitHub Pages (static export, public)                                                                                 | https://aniruddhaadak80.github.io/wow-repo/          |
+| Vercel (server build)                                                                                                | https://wow-repo-aniruddha-adaks-projects.vercel.app |
+| [Deploy your own](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Faniruddhaadak80%2Fwow-repo) | one click                                            |
+
+Commands, env vars, and the manual Deployment Protection step are in
+[`docs/DEPLOY.md`](./docs/DEPLOY.md). The launch post draft is
+[`docs/LAUNCH-POST.md`](./docs/LAUNCH-POST.md).
+
 ## License
 
 MIT. Registry entries point at real projects; the install commands are samples for the demo.
