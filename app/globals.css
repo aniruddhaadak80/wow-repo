@@ -1,0 +1,202 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens (Tailwind v4)
+ *
+ * Strategy: CSS custom properties on :root / [data-theme="dark"], mapped into
+ * Tailwind via @theme inline. One accent color, locked across the whole site:
+ * lime (#4d7c0f light / #bef264 dark) on neutral zinc bases.
+ *
+ * Radius scale (shape consistency lock):
+ *   interactive elements -> rounded-full (pills, buttons)
+ *   cards and tiles      -> rounded-2xl (16px)
+ *   chips and inputs     -> rounded-lg (8px)
+ *
+ * Z-index scale (see lib/constants.ts): 100 dropdown, 200 sticky, 300 overlay,
+ * 400 modal, 500 toast. Do not invent new layers.
+ */
+
+@theme inline {
+  --font-sans:
+    var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, monospace;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-elevated: var(--elevated);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-accent-soft: var(--accent-soft);
+
+  --animate-marquee: marquee 36s linear infinite;
+  --animate-caret: caret 1.1s step-end infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes caret {
+    from,
+    to {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+}
+
+:root {
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --elevated: #f4f4f2;
+  --ink: #18181b;
+  --muted: #5b5b60;
+  --line: #e6e6e3;
+  --accent: #4d7c0f;
+  --on-accent: #ffffff;
+  --accent-soft: #ecfccb;
+}
+
+[data-theme='dark'] {
+  --bg: #0b0b0c;
+  --surface: #131315;
+  --elevated: #1a1a1d;
+  --ink: #f4f4f5;
+  --muted: #a1a1aa;
+  --line: #26262a;
+  --accent: #bef264;
+  --on-accent: #1a2e05;
+  --accent-soft: rgba(190, 242, 100, 0.12);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg text-ink font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* simple-icons ships black SVGs; invert them in dark mode */
+  [data-theme='dark'] .marquee-logo {
+    filter: invert(1);
+    opacity: 0.85;
+  }
+}
+
+@layer utilities {
+  .container-x {
+    @apply mx-auto w-full max-w-[1400px] px-5 sm:px-8;
+  }
+
+  .eyebrow {
+    @apply text-muted font-mono text-[11px] tracking-[0.22em] uppercase;
+  }
+
+  .kbd {
+    @apply border-line bg-elevated text-muted inline-flex h-5 min-w-5 items-center justify-center rounded-lg border px-1.5 font-mono text-[10px];
+  }
+
+  .mono-label {
+    @apply text-muted font-mono text-xs;
+  }
+}
+
+/* ---------------------------------------------------------------- *
+ * MiniChart
+ *
+ * The line draws itself as the chart scrolls into view, using CSS
+ * scroll-driven animations so the effect costs no JavaScript. Where
+ * `animation-timeline: view()` is unsupported the full line renders
+ * immediately, and reduced motion skips the draw entirely.
+ * ---------------------------------------------------------------- */
+
+@keyframes chart-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes chart-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.chart-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.chart-point {
+  opacity: 1;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .chart-line {
+      stroke-dashoffset: 1;
+      animation: chart-draw 1ms linear both;
+      animation-timeline: view();
+      animation-range: entry 15% entry 85%;
+    }
+
+    .chart-point {
+      animation: chart-fade 1ms linear both;
+      animation-timeline: view();
+      animation-range: entry 35% entry 90%;
+    }
+  }
+}
+
+.chart-axis-label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  fill: var(--muted);
+}
+
+.chart-value-label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

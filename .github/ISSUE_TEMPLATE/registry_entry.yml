@@ -1,0 +1,92 @@
+name: Registry entry request
+description: Ask for a skill, MCP server, API, protocol, harness, or tool to be added to the registry.
+labels: ['content', 'registry']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Every entry in `content/registry.ts` has to earn its place: the command, endpoint, or spec link must be real and runnable, and the description has to say what it actually does.
+
+  - type: input
+    id: name
+    attributes:
+      label: Name
+      description: The name users would type.
+      placeholder: Fetch MCP
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options:
+        - skill
+        - mcp
+        - api
+        - protocol
+        - harness
+        - software
+    validations:
+      required: true
+
+  - type: dropdown
+    id: craft
+    attributes:
+      label: Craft
+      options:
+        - Design
+        - DevEx
+        - Content
+        - Research
+        - Multimedia
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-it-does
+    attributes:
+      label: What it does
+      description: One or two sentences, in the voice of the other entries. Say what it is for, not what it is proud of.
+    validations:
+      required: true
+
+  - type: input
+    id: command
+    attributes:
+      label: The single thing worth copying
+      description: The install command, run command, or endpoint. It must work.
+      placeholder: npx -y @modelcontextprotocol/server-fetch
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: Canonical URL
+      description: Repository, documentation, or product site.
+      placeholder: https://github.com/modelcontextprotocol/servers
+    validations:
+      required: true
+
+  - type: input
+    id: license
+    attributes:
+      label: Licence
+      description: Only if you have checked it. Blank is fine.
+
+  - type: textarea
+    id: triggers
+    attributes:
+      label: Search terms
+      description: The words someone would actually search for, comma separated.
+
+  - type: checkboxes
+    id: before-requesting
+    attributes:
+      label: Before requesting
+      options:
+        - label: I checked the [registry](https://wow-repo.vercel.app/skills) and it is not there yet
+          required: true
+        - label: The command or endpoint above is one I have run myself
+          required: true

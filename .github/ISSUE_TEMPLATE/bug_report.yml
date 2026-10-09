@@ -1,0 +1,69 @@
+name: Bug report
+description: Something is broken on the site, in the build, or in the install.
+labels: ['bug', 'needs triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time. Please check the [open issues](https://github.com/aniruddhaadak/wow-repo/issues) first, and run `bun run check` on `main` so we know it is not a local setup problem.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what you got instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to /skills
+        2. Type "landing" in the search field
+        3. The result count stays at 0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where it happens
+      options:
+        - Home (/)
+        - /skills
+        - /skills/[slug]
+        - /agents
+        - /discoveries
+        - API routes
+        - Install or build
+        - Somewhere else
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Versions
+      description: Output of `bun --version` and `node --version`.
+      placeholder: bun 1.3.14, node v22.23.2
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or console output
+      description: Paste the failing command output. Redact anything private.
+      render: shell
+
+  - type: checkboxes
+    id: before-filing
+    attributes:
+      label: Before filing
+      options:
+        - label: I searched the existing issues and this is not a duplicate
+          required: true
+        - label: '`bun run check` passes on a clean checkout of `main`'
+          required: true
