@@ -1,4 +1,3 @@
-
 /*
  * Metadata routes are static by nature. The literal config is also what the
  * GitHub Pages static export needs: route segment config cannot be computed,
