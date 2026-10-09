@@ -1,3 +1,11 @@
+
+/*
+ * Metadata routes are static by nature. The literal config is also what the
+ * GitHub Pages static export needs: route segment config cannot be computed,
+ * so it is written once and read by both deploy targets.
+ */
+export const revalidate = 3600
+
 /*
  * Colors below are the dark-mode tokens from app/globals.css, inlined because
  * ImageResponse cannot read CSS variables:
@@ -8,8 +16,6 @@ import { ImageResponse } from 'next/og'
 
 // Static metadata route: revalidated hourly, and required for the GitHub Pages
 // static export, which refuses a route with no literal segment config.
-export const revalidate = 3600
-
 export const alt = 'wow-repo: a showcase of curated agent skills'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'

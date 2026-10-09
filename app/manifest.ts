@@ -1,3 +1,11 @@
+
+/*
+ * Metadata routes are static by nature. The literal config is also what the
+ * GitHub Pages static export needs: route segment config cannot be computed,
+ * so it is written once and read by both deploy targets.
+ */
+export const revalidate = 3600
+
 import type { MetadataRoute } from 'next'
 
 /*
@@ -5,8 +13,6 @@ import type { MetadataRoute } from 'next'
  * GitHub Pages static export needs: route segment config cannot be computed,
  * so it is written once and read by both deploy targets.
  */
-export const revalidate = 3600
-
 /*
  * PWA manifest. The site installs to a home screen and launches standalone,
  * which is what makes the "app" in the app showcase a real app rather than a
