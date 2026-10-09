@@ -11,8 +11,11 @@ export default defineConfig({
     include: ['**/*.{test,spec}.{ts,tsx}'],
     exclude: ['node_modules', '.next', 'e2e'],
     css: false,
-    // The forks pool is flaky under load on Windows: workers time out waiting
-    // for a handshake. Threads start faster and keep `bun run test` reliable.
+    // Parallel workers time out on busy machines (and in CI containers with
+    // few cores). Two bounded workers keep runs reliable and still parallel.
     pool: 'threads',
+    poolOptions: {
+      threads: { minThreads: 1, maxThreads: 2 },
+    },
   },
 })
