@@ -10,7 +10,7 @@ export interface Agent {
   id: string
   label: string
   does: string
-  /** Skill slugs this agent runs, resolved against content/skills.ts. */
+  /** Skill slugs this agent runs, resolved against content/registry.ts. */
   skills: string[]
 }
 

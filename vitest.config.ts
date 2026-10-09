@@ -11,11 +11,9 @@ export default defineConfig({
     include: ['**/*.{test,spec}.{ts,tsx}'],
     exclude: ['node_modules', '.next', 'e2e'],
     css: false,
-    // Parallel workers time out on busy machines (and in CI containers with
-    // few cores). Two bounded workers keep runs reliable and still parallel.
+    // Unbounded worker pools time out on busy machines and small CI runners.
+    // Two workers keep runs parallel and reliable.
     pool: 'threads',
-    poolOptions: {
-      threads: { minThreads: 1, maxThreads: 2 },
-    },
+    maxWorkers: 2,
   },
 })

@@ -99,13 +99,13 @@ Five good first issues are written, scoped, and ready to file: the files, the
 checks, and the acceptance criteria are already filled in. No "add your name to
 a list" tasks, no README typo fixes.
 
-| # | Issue | Effort |
-|---|-------|--------|
-| 1 | Copy an install command from a catalog card | ~30 min |
-| 2 | Keyboard-navigate the skills explorer | ~45 min |
-| 3 | Cover the registry query layer with tests | ~40 min |
-| 4 | Cover the findings query layer with tests | ~40 min |
-| 5 | Document the reduced-motion contract | ~30 min |
+| #   | Issue                                       | Effort  |
+| --- | ------------------------------------------- | ------- |
+| 1   | Copy an install command from a catalog card | ~30 min |
+| 2   | Keyboard-navigate the skills explorer       | ~45 min |
+| 3   | Cover the registry query layer with tests   | ~40 min |
+| 4   | Cover the findings query layer with tests   | ~40 min |
+| 5   | Document the reduced-motion contract        | ~30 min |
 
 Full bodies and checklists live in [docs/good-first-issues.md](./docs/good-first-issues.md),
 and the rules of engagement in [HACKTOBERFEST.md](./HACKTOBERFEST.md). The same

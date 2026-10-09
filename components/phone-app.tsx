@@ -60,7 +60,7 @@ function useDeviceClock(): string {
 /**
  * A real mini-app rendered from the real catalog: search, open, and "install"
  * a skill inside the phone. Not a screenshot and not a mockup: every row,
- * count, and command comes from `content/skills.ts`. The install sequence is a
+ * count, and command comes from `content/registry.ts`. The install sequence is a
  * timed demo of what the CLI prints.
  */
 export function PhoneApp({ initialSlug, className }: PhoneAppProps) {

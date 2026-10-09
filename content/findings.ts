@@ -54,7 +54,7 @@ export interface Finding {
   /** The limit of the claim. Written next to it, not in a footnote nobody reads. */
   caveat?: string
   source: Source
-  /** Slugs from content/skills.ts that would help you verify this yourself. */
+  /** Slugs from content/registry.ts that would help you verify this yourself. */
   skills: string[]
   featured?: boolean
 }

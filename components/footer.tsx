@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { GithubLogo, ArrowUpRight } from '@phosphor-icons/react/ssr'
-import { GITHUB_URL, SITE_URL } from '@/lib/constants'
+import { GITHUB_URL } from '@/lib/constants'
 
 export function Footer() {
   return (

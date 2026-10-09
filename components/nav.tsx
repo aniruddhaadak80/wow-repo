@@ -102,7 +102,7 @@ export function Nav() {
             target="_blank"
             rel="noreferrer noopener"
             className="border-line bg-surface text-muted hover:border-ink/30 hover:text-ink hidden h-9 w-9 items-center justify-center rounded-full border transition-colors sm:flex"
-            aria-label="Open the GitHub repository"
+            aria-label="Open GitHub repository"
           >
             <GithubLogo weight="regular" className="h-4 w-4" />
           </a>
