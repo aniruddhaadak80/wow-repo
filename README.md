@@ -86,8 +86,12 @@ npx vercel --prod
 The same `next.config.ts` serves both. When `GH_PAGES=true` it emits a fully
 static export with the repo-name basePath and no image optimizer, because Pages
 has no server. Vercel builds leave the variable unset and keep ISR plus the
-`/api/*` routes. The exported API routes return the full dataset: there is no
-server on Pages to read a query string.
+`/api/*` routes.
+
+The JSON APIs are Vercel-only. Pages has no server to read a query string, so
+the exported API routes exist to satisfy the build and are not served. On
+Vercel they return real data: `/api/skills?q=design` filters the registry and
+`/api/health` reports a live timestamp.
 
 Live badges:
 
