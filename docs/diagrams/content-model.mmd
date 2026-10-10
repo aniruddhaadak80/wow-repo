@@ -1,0 +1,46 @@
+%% Relationships between the typed content modules.
+erDiagram
+    REGISTRY_ENTRY {
+        string slug PK
+        string name
+        string kind "skill | mcp | api | protocol | harness | software"
+        string craft "Design | DevEx | Content | Research | Multimedia"
+        string tagline
+        string command
+        string url
+        string addedAt "sample catalog date, labelled in UI"
+        bool featured
+    }
+    BENCHMARK_RUN {
+        string id PK
+        string agent
+        string task
+        int score "sample data, labelled in UI"
+    }
+    FINDING {
+        string slug PK
+        string title
+        string source
+        string publishedAt
+    }
+    SUPER_ENTRY {
+        string slug PK
+        string kind "scenario | paper | book | voice | researcher"
+        string topic
+        string source
+    }
+    DOC_PAGE {
+        string slug PK
+        string title
+        string group "Architecture | Design system | Quality | Deploy"
+    }
+    GOOD_FIRST_ISSUE {
+        int number PK
+        string title
+        string effort
+        string path "asserted by a test to still exist"
+    }
+
+    REGISTRY_ENTRY ||..o{ BENCHMARK_RUN : "agents in runs cite entries"
+    REGISTRY_ENTRY ||..o{ GOOD_FIRST_ISSUE : "issues point at real files"
+    DOC_PAGE ||--o{ DOC_PAGE : "same lib/ query layer"

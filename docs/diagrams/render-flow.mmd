@@ -1,0 +1,22 @@
+%% How one page render flows: server components first, client leaves last.
+sequenceDiagram
+    autonumber
+    participant B as Browser
+    participant N as Next.js (Vercel)
+    participant P as app/ page (RSC)
+    participant L as lib/ queries
+    participant C as content/ modules
+    participant I as Client island
+
+    B->>N: GET /skills
+    N->>P: render server component
+    P->>L: queryEntries({ kind, craft, q })
+    L->>C: read typed records
+    C-->>L: RegistryEntry[]
+    L-->>P: filtered + counted
+    P-->>N: HTML + RSC payload
+    N-->>B: streamed response (ISR cache hit: no render at all)
+    B->>I: hydrate small client leaves
+    I->>L: same query, in the client bundle
+    L-->>I: RegistryEntry[]
+    Note over I: search, filters, and the<br/>phone app run on real data,<br/>no API call needed

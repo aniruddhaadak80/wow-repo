@@ -1,14 +1,144 @@
-# wow-repo
+<p align="center">
+  <img src="./docs/images/banner.svg" alt="wow-repo: Skills that ship. Sites that wow." width="100%" />
+</p>
 
-[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Faniruddhaadak80%2Fwow-repo&project-name=wow-repo&repository-name=wow-repo)
+<p align="center">
+  <a href="https://wow-repo.vercel.app">Live site</a> ·
+  <a href="https://aniruddhaadak80.github.io/wow-repo/">GitHub Pages mirror</a> ·
+  <a href="https://wow-repo.vercel.app/docs">Docs</a> ·
+  <a href="https://wow-repo.vercel.app/feed.xml">RSS</a> ·
+  <a href="./CONTRIBUTING.md">Contributing</a>
+</p>
 
-A production-ready Next.js showcase of the open agent stack: skills, MCP servers, public APIs, protocols, harnesses, and free software, in one searchable registry. Built to make people say **wow**.
+<p align="center">
+  <a href="https://github.com/aniruddhaadak80/wow-repo/actions/workflows/ci.yml"><img src="https://github.com/aniruddhaadak80/wow-repo/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://github.com/aniruddhaadak80/wow-repo/actions/workflows/pages.yml"><img src="https://github.com/aniruddhaadak80/wow-repo/actions/workflows/pages.yml/badge.svg" alt="GitHub Pages" /></a>
+  <a href="https://github.com/aniruddhaadak80/wow-repo/actions/workflows/lighthouse.yml"><img src="https://github.com/aniruddhaadak80/wow-repo/actions/workflows/lighthouse.yml/badge.svg" alt="Lighthouse" /></a>
+  <a href="https://wow-repo.vercel.app"><img src="https://img.shields.io/badge/Vercel-live-000?logo=vercel&logoColor=white" alt="Vercel live" /></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-4d7c0f" alt="MIT license" /></a>
+</p>
 
-Skills that ship. Sites that wow.
+---
 
-## Why this exists
+<!-- name: wow-repo -->
+<!-- description: Production-grade Next.js showcase of the open agent stack. A searchable registry, working demos, and one codebase that deploys to both Vercel and GitHub Pages. -->
+<!-- topics: agent-skills, ai-agents, developer-tools, mcp, motion, nextjs, open-source, react, showcase, tailwindcss, typescript, vercel -->
 
-Most "wow" repos are a hero, three cards, and a gradient. This one is a working product: a searchable registry of the open agent ecosystem, interactive demos that run on the real catalog, and a build configured for Vercel from day one.
+A production-ready Next.js showcase of the open agent stack: **skills, MCP servers, public APIs, protocols, harnesses, and free software**, in one searchable registry. Built to make people say **wow**.
+
+Most "wow" repos are a hero, three cards, and a gradient. This one is a working product: 108 real registry entries, interactive demos that run on the real catalog, an installable PWA, and a build that ships to **two deploy targets** from the same `main` branch.
+
+## Capabilities
+
+Use this repo as a reference implementation, a starter, or a source of copy-pasteable patterns.
+
+| Capability                          | When to reach for it                                                               | Where                                                      |
+| ----------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| **Typed content layer**             | You want data in `content/*.ts`, queries in `lib/*.ts`, zero fetches in components | `content/registry.ts`, `lib/registry.ts`                   |
+| **Two-target deploy**               | You need one codebase on Vercel (full) and GitHub Pages (static)                   | `next.config.ts`, `lib/pages-export.ts`                    |
+| **Client islands, not client apps** | You want interactivity without turning every page into a SPA                       | `components/compare-board.tsx`, `components/phone-app.tsx` |
+| **URL as state**                    | Your filter/selection UI should be shareable and reload-safe                       | `components/compare-board.tsx` (`useSyncExternalStore`)    |
+| **Design-token discipline**         | One accent, one radius scale, one z-index scale, enforced                          | `app/globals.css`, `lib/constants.ts`                      |
+| **Motion with a reason**            | Transform + opacity only, `useReducedMotion` everywhere                            | `components/sections/manifesto.tsx`                        |
+| **Dataset integrity tests**         | Your content modules should fail CI when malformed                                 | `content/*.test.ts` (120 tests total)                      |
+| **Lighthouse as a gate**            | Accessibility and perf regressions block the merge                                 | `.lighthouserc.json`, `.github/workflows/lighthouse.yml`   |
+
+## Screenshots
+
+<p align="center">
+  <img src="./docs/images/home.png" alt="Home: the hero with live catalog search" width="820" />
+</p>
+
+| Registry                                                                                                   | Compare                                                                                       |
+| ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| <img src="./docs/images/skills.png" alt="The registry: 108 entries with search and filters" width="400" /> | <img src="./docs/images/compare.png" alt="Compare board: entries side by side" width="400" /> |
+
+<p align="center">
+  <img src="./docs/images/docs.png" alt="In-repo docs: architecture, design system, deploy" width="820" />
+</p>
+
+<p align="center">
+  <img src="./docs/images/skill-detail.png" alt="Skill detail page with copyable command" width="400" />
+  &nbsp;
+  <img src="./docs/images/home-mobile.png" alt="Mobile: PWA with bottom tab bar" width="200" />
+</p>
+
+## Quickstart
+
+```bash
+bun install
+bun run dev        # http://localhost:3000
+bun run check      # typecheck + lint + format + test + build
+```
+
+Everything runs with **zero API keys**: the catalog, the demos, the swarm runner, and the benchmarks all read typed local content.
+
+## How it fits together
+
+```mermaid
+flowchart TB
+    subgraph content["content/ — typed data, no markup"]
+        REG["registry.ts (108 entries)"]
+        MORE["benchmarks · findings<br/>superintelligence · docs"]
+    end
+    subgraph lib["lib/ — queries"]
+        Q["getEntries · queryEntries<br/>buildCompareRows · pages-export"]
+    end
+    subgraph app["app/ — server components"]
+        P["/ · /skills · /compare<br/>/docs · /agents · /discoveries"]
+        API["/api/* — Vercel only"]
+    end
+    subgraph islands["Client leaves — the only JS shipped"]
+        I["search · phone app<br/>swarm runner · palette<br/>compare board · tab bar"]
+    end
+    REG --> Q
+    MORE --> Q
+    Q --> P
+    Q --> API
+    P --> I
+```
+
+More diagrams (render flow, content model, compare state machine, deploy pipeline, quality gates, visitor journey, feature map) live in [`docs/diagrams/`](./docs/diagrams) as Mermaid sources.
+
+## Deploy: one codebase, two targets
+
+```mermaid
+flowchart LR
+    MAIN["git push to main"] --> CI["CI: five gates"]
+    MAIN --> PAGES["Pages workflow<br/>GH_PAGES=true"]
+    MAIN --> V["Vercel git deploy"]
+    PAGES --> OUT["out/ static export"] --> GP["github.io/wow-repo"]
+    V --> LIVE["wow-repo.vercel.app<br/>ISR · JSON APIs · Analytics"]
+```
+
+| Target                 | URL                                                                               | What runs there                                                        |
+| ---------------------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **Vercel** (canonical) | [wow-repo.vercel.app](https://wow-repo.vercel.app)                                | Full app: ISR, `/api/*`, image optimization, Analytics, Speed Insights |
+| **GitHub Pages**       | [aniruddhaadak80.github.io/wow-repo](https://aniruddhaadak80.github.io/wow-repo/) | Static export of the same site, built by `pages.yml`                   |
+
+The switch is one environment variable. `GH_PAGES=true` makes `next.config.ts` emit a static export with the repo-name basePath and no image optimizer; Vercel builds leave it unset and keep the server features. The JSON APIs are Vercel-only (Pages has no server to read a query string) and the README says so plainly.
+
+```bash
+npx vercel --prod        # deploy the full app
+GH_PAGES=true bun run build   # reproduce the Pages build locally (out/)
+```
+
+## Quality gates
+
+```mermaid
+flowchart LR
+    A["a change"] --> B["tsc --noEmit"]
+    B --> C["eslint"]
+    C --> D["prettier --check"]
+    D --> E["vitest (120 tests)"]
+    E --> F["next build (169 pages)"]
+    F --> G["Lighthouse CI<br/>a11y = 1.0 · perf ≥ 0.9"]
+    G --> H["main stays green"]
+```
+
+- **`bun run check`** runs all five gates in one command; CI reruns the same command on every push and PR.
+- **Lighthouse CI** audits home, registry, and compare with a desktop preset and _fails the build_ on any accessibility, performance, best-practices, or SEO regression.
+- **Dataset tests** assert invariants: unique slugs, valid kinds, in-range scores, internals that agree with their own breakdowns.
 
 ## Features
 
@@ -19,164 +149,63 @@ Most "wow" repos are a hero, three cards, and a gradient. This one is a working 
 - Shape consistency lock: pills for interactive, 16px tiles, 8px chips
 - Documented z-index scale in `lib/constants.ts`, one accent hue, one easing curve
 - Reduced-motion support everywhere, including scroll-driven motion
-- `content/preflight.ts` renders the rules ledger on the home page and points at the file that enforces each one
 
 **Registry showcase** (`content/registry.ts`, 108 entries across six kinds)
 
 - Skills, MCP servers, APIs, protocols, harnesses, and software, each with a real command and a real link
-- `/skills` index with search, kind tabs, and craft filters over all 108 entries
-- `/skills/[slug]` detail pages with triggers, a copyable command, the source link, and related entries
+- `/skills` index with search, kind tabs, and craft filters; `/skills/[slug]` detail pages with triggers, copyable command, and related entries
 - `/agents`: a demo org of 24 agents across eight departments, with a replayable orchestration run
 - `/discoveries`: a sourced log of scientific findings, plus published curves on machine-research speed
-- `/superintelligence`: After the world, 31 sourced entries across five kinds (scenarios, papers, books, voices, researchers) with kind and topic filters, detail pages, and a JSON API
-- Global Cmd/Ctrl+K command palette
+- `/superintelligence`: After the world, 31 sourced entries across five kinds with filters, detail pages, and a JSON API
+- Global Cmd/Ctrl+K command palette and `?` keyboard-shortcut dialog
 
 **Working demos, not screenshots**
 
 - Live catalog search in the hero (filters the real data, navigates for real)
-- A phone mini-app: search, open, and "install" a skill inside a device frame
+- A phone mini-app: search, open, and "install" a skill inside a device frame (also the installable PWA surface)
 - The swarm runner: a lead agent fans a task out to real registry entries and merges the reports
 - The benchmark scoreboard: sortable runs over typed benchmark content
 
 **Comparison, docs, and feeds**
 
-- `/compare`: put up to four registry entries side by side (kind, craft, command, licence, source, added date), with the selection in the URL so a comparison is a shareable link
-- `/docs`: the in-repo documentation of architecture, design system, motion, accessibility, both deploy targets, and the quality gates, rendered from `content/docs.ts`
-- `/random`: entry roulette that lands on a random registry entry, never twice in a row per session
-- `/feed.xml`: an RSS feed of the 30 newest registry entries
-- Keyboard shortcuts: `?` opens the dialog, `g` then `s`/`c`/`d`/`r` navigates, and every binding has a pointer equivalent
-- ItemList and BreadcrumbList JSON-LD on the home page alongside the existing WebSite schema
+- `/compare`: up to four entries side by side, selection in the URL so a comparison is a shareable link
+- `/docs`: in-repo documentation rendered from `content/docs.ts`, architecture through quality gates
+- `/random`: entry roulette, never twice in a row per session
+- `/feed.xml`: RSS of the 30 newest entries
+- ItemList and BreadcrumbList JSON-LD alongside the WebSite schema
 
-**Vercel optimization**
+**Platform**
 
-- Static generation with ISR (`revalidate = 3600`) on catalog pages
-- `generateStaticParams` for every registry route (129 static pages)
+- Static generation with ISR (`revalidate = 3600`); `generateStaticParams` for every registry route
 - Edge-cached JSON API (`/api/skills?kind=&craft=&q=`) with `stale-while-revalidate`
-- AVIF/WebP images, `optimizePackageImports`, security headers
-- `next/og` generated social cards, `sitemap.xml`, `robots.txt`, JSON-LD, web manifest
-- Vercel Analytics and Speed Insights mounted in the root layout
-- Optional bundle analysis: `bun run analyze`
-
-**Developer experience**
-
-- TypeScript strict mode, ESLint (Next core-web-vitals), Prettier with the Tailwind plugin
-- Vitest + Testing Library, including dataset integrity tests (unique slugs, valid kinds, real URLs)
-- `bun run check` runs typecheck, lint, format check, tests, and build
-- GitHub Actions CI on every push and PR
-- Lighthouse CI on every push to main, with performance, accessibility, best-practices, and SEO thresholds in `.lighthouserc.json` (desktop preset, which reflects how the site is actually served; the simulated mobile profile multiplies CPU by four and punishes the interactive sections)
-- Loading, error, and 404 boundaries with skeletons
-
-## Quickstart
-
-```bash
-bun install
-bun run dev        # http://localhost:3000
-bun run build      # production build
-bun start          # serve the production build
-bun run check      # typecheck + lint + format + test + build
-bun run analyze    # bundle analysis
-```
-
-## Deploy
-
-Two targets, one codebase. Both build from `main` with no extra configuration.
-
-| Target             | URL                                         | What runs there                                                             |
-| ------------------ | ------------------------------------------- | --------------------------------------------------------------------------- |
-| Vercel (canonical) | https://wow-repo.vercel.app                 | Full app: ISR, the JSON APIs, image optimization, Analytics, Speed Insights |
-| GitHub Pages       | https://aniruddhaadak80.github.io/wow-repo/ | Static export of the same site (`.github/workflows/pages.yml`)              |
-
-```bash
-# Vercel, from a clean checkout
-npx vercel --prod
-
-# GitHub Pages is already wired: push to main and .github/workflows/pages.yml
-# builds with GH_PAGES=true and deploys the out/ directory.
-```
-
-The same `next.config.ts` serves both. When `GH_PAGES=true` it emits a fully
-static export with the repo-name basePath and no image optimizer, because Pages
-has no server. Vercel builds leave the variable unset and keep ISR plus the
-`/api/*` routes.
-
-The JSON APIs are Vercel-only. Pages has no server to read a query string, so
-the exported API routes exist to satisfy the build and are not served. On
-Vercel they return real data: `/api/skills?q=design` filters the registry and
-`/api/health` reports a live timestamp.
-
-Live badges:
-
-[![CI](https://github.com/aniruddhaadak80/wow-repo/actions/workflows/ci.yml/badge.svg)](https://github.com/aniruddhaadak80/wow-repo/actions/workflows/ci.yml)
-[![Pages](https://github.com/aniruddhaadak80/wow-repo/actions/workflows/pages.yml/badge.svg)](https://github.com/aniruddhaadak80/wow-repo/actions/workflows/pages.yml)
-[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Faniruddhaadak80%2Fwow-repo&project-name=wow-repo&repository-name=wow-repo)
-
-## Stack
-
-| Layer     | Choice                          |
-| --------- | ------------------------------- |
-| Framework | Next.js 16 (App Router, RSC)    |
-| UI        | React 19, Tailwind CSS 4        |
-| Motion    | Motion (`motion/react`)         |
-| Icons     | Phosphor Icons                  |
-| Fonts     | Geist, Geist Mono (`next/font`) |
-| Tests     | Vitest, Testing Library         |
-| Deploy    | Vercel                          |
+- AVIF/WebP images, security headers, `next/og` social cards, `sitemap.xml`, `robots.txt`
+- PWA: web manifest, SVG icon, safe-area aware bottom tab bar, install button
+- Vercel Analytics and Speed Insights in the root layout; bundle analysis via `bun run analyze`
 
 ## Project structure
 
 ```
-app/                    # App Router: pages, API routes, metadata, og image
-components/             # Section components and interactive islands
+app/                    # App Router: pages, API routes, metadata routes
+components/             # Section components and client islands
 components/sections/    # One file per page section
-content/                # Typed content modules: registry, findings, superintelligence, benchmarks, preflight rules
-content/issues.ts       # The good-first-issue list the Contribute section renders
-lib/                    # Queries, constants, helpers
-docs/                   # Contributor docs: good first issues, design system
-.github/                # CI, issue forms, PR template, Dependabot
-HACKTOBERFEST.md        # Contributing in October: the first wave and the rules
-CONTRIBUTING.md         # The bar for a merge
+content/                # Typed content modules (+ co-located tests)
+lib/                    # Queries, constants, compare/docs helpers
+docs/diagrams/          # Mermaid sources for the diagrams above
+docs/images/            # Banner, logo, and real screenshots
+.github/                # CI, Pages, Lighthouse workflows; issue forms; PR template
 ```
 
-## Hacktoberfest
+## Contributing
 
-Five good first issues are written, scoped, and ready to file: the files, the
-checks, and the acceptance criteria are already filled in. No "add your name to
-a list" tasks, no README typo fixes.
+Read [CONTRIBUTING.md](./CONTRIBUTING.md) for the bar for a merge. Five scoped good-first-issues are written and ready to file (see [docs/good-first-issues.md](./docs/good-first-issues.md)); a test asserts the files they name still exist, so a stale issue fails the suite. October rules live in [HACKTOBERFEST.md](./HACKTOBERFEST.md).
 
-| #   | Issue                                       | Effort  |
-| --- | ------------------------------------------- | ------- |
-| 1   | Copy an install command from a catalog card | ~30 min |
-| 2   | Keyboard-navigate the skills explorer       | ~45 min |
-| 3   | Cover the registry query layer with tests   | ~40 min |
-| 4   | Cover the findings query layer with tests   | ~40 min |
-| 5   | Document the reduced-motion contract        | ~30 min |
+## Docs
 
-Full bodies and checklists live in [docs/good-first-issues.md](./docs/good-first-issues.md),
-and the rules of engagement in [HACKTOBERFEST.md](./HACKTOBERFEST.md). The same
-list renders on the home page from `content/issues.ts`, and a test asserts every
-path those issues name still exists, so a stale issue fails the suite.
-
-## Design notes
-
-- **One accent, locked.** `#4d7c0f` in light mode, `#bef264` in dark. No second accent, no purple gradients.
-- **One source of truth.** Every page reads from `content/registry.ts`; the demo org, benchmarks, and findings have their own typed modules.
-- **Eyebrow budget.** At most one small-caps label per three sections.
-- **One marquee.** The stack wall under the hero is the only infinite scroll on the site.
-- **Motion is motivated.** Every animation communicates something: the phone navigates, the swarm reports, the numbers count up once.
-- **Honest numbers.** Counts are computed at build time; sample data says so on the surface that renders it.
-
-## Deploying
-
-| Target                                                                                                               | URL                                                  |
-| -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| GitHub Pages (static export, public)                                                                                 | https://aniruddhaadak80.github.io/wow-repo/          |
-| Vercel (server build)                                                                                                | https://wow-repo-aniruddha-adaks-projects.vercel.app |
-| [Deploy your own](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Faniruddhaadak80%2Fwow-repo) | one click                                            |
-
-Commands, env vars, and the manual Deployment Protection step are in
-[`docs/DEPLOY.md`](./docs/DEPLOY.md). The launch post draft is
-[`docs/LAUNCH-POST.md`](./docs/LAUNCH-POST.md).
+- [In-repo docs](https://wow-repo.vercel.app/docs) — architecture, design system, motion, accessibility, deploy, quality gates
+- [DEPLOY.md](./docs/DEPLOY.md) — env vars and the manual deploy steps
+- [design-system.md](./docs/design-system.md) — tokens, shapes, motion rules
+- [LAUNCH-POST.md](./docs/LAUNCH-POST.md) — launch post draft
 
 ## License
 
-MIT. Registry entries point at real projects; the install commands are samples for the demo.
+MIT. Registry entries point at real projects; the install commands are samples for the demo, and the UI says so too.

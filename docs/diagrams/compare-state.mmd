@@ -1,0 +1,24 @@
+%% The compare board: the URL is the state, useSyncExternalStore is the bridge.
+stateDiagram-v2
+    [*] --> Empty: open /compare
+    Empty --> OneSelected: click an entry chip
+    OneSelected --> TwoSelected: add a second
+    TwoSelected --> ThreeSelected: add a third
+    ThreeSelected --> FourSelected: add a fourth
+    FourSelected --> ThreeSelected: remove one (limit is 4)
+
+    OneSelected --> Empty: remove the last chip
+    TwoSelected --> OneSelected: remove a chip
+    ThreeSelected --> TwoSelected: remove a chip
+
+    state "URL: ?with=slug-a,slug-b" as URLNote
+    TwoSelected --> URLNote: history.replaceState + custom event
+    URLNote --> TwoSelected: useSyncExternalStore re-reads
+
+    Empty --> TwoSelected: paste a shared ?with= link
+    note right of Empty
+        The static export cannot read a
+        query string at build time, so the
+        server page renders a shell and the
+        island owns everything interactive.
+    end note

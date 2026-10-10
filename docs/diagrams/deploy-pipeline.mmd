@@ -1,0 +1,22 @@
+%% Dual deploy: one codebase, two very different builds.
+%% GH_PAGES=true flips output: 'export' + /wow-repo basePath.
+flowchart LR
+    MAIN["git push to main"]
+
+    MAIN --> CI["CI workflow<br/>typecheck · lint · format<br/>vitest · build"]
+    MAIN --> LH["Lighthouse workflow<br/>desktop preset gate"]
+    MAIN --> PAGES_W["Pages workflow"]
+    MAIN --> VERCEL_AUTO["Vercel git deploy<br/>(or npx vercel --prod)"]
+
+    PAGES_W --> RM["rm -rf app/api<br/>static export cannot serve them"]
+    RM --> BUILD_P["bun run build<br/>GH_PAGES=true"]
+    BUILD_P --> OUT["out/<br/>full basePath baked in"]
+    OUT --> DEPLOY_P["actions/deploy-pages"]
+
+    VERCEL_AUTO --> BUILD_V["next build<br/>no GH_PAGES"]
+    BUILD_V --> LIVE_V["wow-repo.vercel.app<br/>ISR · /api/* · image optimizer<br/>Analytics · Speed Insights"]
+
+    DEPLOY_P --> LIVE_P["aniruddhaadak80.github.io<br/>/wow-repo/ (static only)"]
+
+    LIVE_V -.->|"JSON APIs 404 here"| LIVE_P
+    LIVE_P -.->|"link to canonical"| LIVE_V

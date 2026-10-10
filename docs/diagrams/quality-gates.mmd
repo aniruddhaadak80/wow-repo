@@ -1,0 +1,17 @@
+%% The quality gate every change must clear before it reaches main.
+%% bun run check runs the first five; CI runs the same command.
+flowchart LR
+    START["a change"] --> TC["tsc --noEmit<br/>strict TypeScript"]
+    TC --> LINT["eslint .<br/>next/core-web-vitals<br/>+ react-hooks rules"]
+    LINT --> FMT["prettier --check .<br/>incl. Tailwind class sort"]
+    FMT --> VIT["vitest run<br/>120 tests<br/>components + dataset invariants"]
+    VIT --> BUILD["next build<br/>169 static pages"]
+    BUILD --> PUSH["push to main"]
+
+    PUSH --> CI_RUN["GitHub Actions CI<br/>reruns the same five"]
+    PUSH --> LH_RUN["Lighthouse CI<br/>perf 0.9 · a11y 1.0<br/>best-practices 0.9 · seo 0.9"]
+    PUSH --> PAGES_RUN["Pages workflow<br/>GH_PAGES=true build"]
+
+    CI_RUN --> MERGE["main stays green"]
+    LH_RUN --> MERGE
+    PAGES_RUN --> MERGE

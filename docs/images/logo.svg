@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="44" viewBox="0 0 220 44" fill="none">
+  <!-- wow-repo logo mark: the lime tile with a mono w, plus the wordmark. -->
+  <rect x="2" y="2" width="40" height="40" rx="10" fill="#bef264" />
+  <text x="22" y="29" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" font-weight="700" fill="#1a2e05">w</text>
+  <text x="52" y="29" font-family="ui-sans-serif, system-ui, sans-serif" font-size="21" font-weight="700" letter-spacing="-0.5" fill="#fafaf9">wow</text>
+  <text x="106" y="29" font-family="ui-sans-serif, system-ui, sans-serif" font-size="21" font-weight="700" fill="#bef264">*</text>
+  <text x="122" y="29" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#71717a">repo</text>
+</svg>

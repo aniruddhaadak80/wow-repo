@@ -1,0 +1,66 @@
+%% Architecture: server-first App Router with client islands.
+%% Every page is a server component; only interactive leaves ship JS.
+flowchart TB
+    subgraph content["content/ — typed data, no markup"]
+        REG["registry.ts<br/>108 entries, 6 kinds"]
+        BENCH["benchmarks.ts"]
+        FIND["findings.ts"]
+        SUPER["superintelligence.ts"]
+        DOCS["docs.ts"]
+        PREFLIGHT["preflight.ts"]
+    end
+
+    subgraph lib["lib/ — queries and rules"]
+        RQ["registry.ts<br/>getEntries, queryEntries"]
+        DQ["docs.ts, compare.ts<br/>superintelligence.ts"]
+        CONST["constants.ts<br/>EASE, Z scale, SITE_URL"]
+        PAGES["pages-export.ts<br/>IS_PAGES_EXPORT"]
+    end
+
+    subgraph app["app/ — routes"]
+        HOME["/ (14 sections)"]
+        SKILLS["/skills + /skills/[slug]"]
+        AGENTS["/agents"]
+        DISC["/discoveries"]
+        SUPERP["/superintelligence"]
+        CMP["/compare"]
+        DOCP["/docs"]
+        RAND["/random"]
+        API["/api/* (Vercel only)"]
+        META["sitemap, robots, manifest<br/>opengraph-image, feed.xml"]
+    end
+
+    subgraph islands["Client leaves — the only JS shipped"]
+        SEARCH["hero catalog search"]
+        PHONE["phone mini-app"]
+        SWARM["swarm runner"]
+        BOARD["compare board"]
+        PALETTE["command palette"]
+        TABBAR["mobile tab bar"]
+        KEYS["shortcuts dialog"]
+    end
+
+    REG --> RQ
+    BENCH --> DQ
+    FIND --> DQ
+    SUPER --> DQ
+    DOCS --> DQ
+    PREFLIGHT --> DQ
+
+    RQ --> HOME
+    RQ --> SKILLS
+    RQ --> CMP
+    RQ --> API
+    DQ --> HOME
+    DQ --> DOCP
+    DQ --> SUPERP
+    CONST --> HOME
+    PAGES -.->|GH_PAGES=true| API
+
+    HOME --> SEARCH
+    HOME --> PHONE
+    HOME --> SWARM
+    HOME --> PALETTE
+    HOME --> TABBAR
+    CMP --> BOARD
+    HOME --> KEYS

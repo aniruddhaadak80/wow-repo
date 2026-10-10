@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" fill="none">
+  <!-- README banner: dark stage, lime accent, the tagline, and the live stats. -->
+  <rect width="1200" height="300" rx="0" fill="#0b0b0c" />
+  <rect x="0" y="0" width="1200" height="300" fill="url(#grid)" opacity="0.35" />
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" stroke="#27272a" stroke-width="1" fill="none" />
+    </pattern>
+  </defs>
+
+  <!-- logo tile -->
+  <rect x="64" y="60" width="52" height="52" rx="13" fill="#bef264" />
+  <text x="90" y="96" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="26" font-weight="700" fill="#1a2e05">w</text>
+
+  <!-- wordmark -->
+  <text x="132" y="100" font-family="ui-sans-serif, system-ui, sans-serif" font-size="42" font-weight="800" letter-spacing="-1" fill="#fafaf9">wow</text>
+  <text x="216" y="100" font-family="ui-sans-serif, system-ui, sans-serif" font-size="42" font-weight="800" fill="#bef264">*</text>
+  <text x="238" y="100" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" fill="#71717a">repo</text>
+
+  <!-- tagline -->
+  <text x="64" y="172" font-family="ui-sans-serif, system-ui, sans-serif" font-size="44" font-weight="800" letter-spacing="-1.5" fill="#fafaf9">Skills that ship. Sites that</text>
+  <text x="782" y="172" font-family="ui-serif, Georgia, serif" font-size="44" font-style="italic" font-weight="700" fill="#bef264">wow.</text>
+
+  <text x="64" y="212" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#a1a1aa">The open agent stack in one place: skills, MCP servers, public APIs, protocols, harnesses, and free software.</text>
+
+  <!-- stat chips -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15">
+    <rect x="64" y="238" width="150" height="34" rx="17" fill="#141416" stroke="#27272a" />
+    <text x="82" y="260" fill="#bef264">108</text>
+    <text x="118" y="260" fill="#a1a1aa">entries</text>
+
+    <rect x="226" y="238" width="150" height="34" rx="17" fill="#141416" stroke="#27272a" />
+    <text x="244" y="260" fill="#bef264">6</text>
+    <text x="262" y="260" fill="#a1a1aa">kinds</text>
+
+    <rect x="388" y="238" width="150" height="34" rx="17" fill="#141416" stroke="#27272a" />
+    <text x="406" y="260" fill="#bef264">120</text>
+    <text x="442" y="260" fill="#a1a1aa">tests</text>
+
+    <rect x="550" y="238" width="190" height="34" rx="17" fill="#141416" stroke="#27272a" />
+    <text x="568" y="260" fill="#bef264">1</text>
+    <text x="586" y="260" fill="#a1a1aa">codebase, 2 deploys</text>
+  </g>
+
+  <!-- right accent asterisk, echoes the wordmark -->
+  <text x="1090" y="250" font-family="ui-serif, Georgia, serif" font-size="220" font-style="italic" fill="#bef264" opacity="0.12">*</text>
+</svg>
