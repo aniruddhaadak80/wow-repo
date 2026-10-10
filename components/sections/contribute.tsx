@@ -19,7 +19,7 @@ export function Contribute() {
       className="container-x border-line scroll-mt-24 border-t py-24 lg:py-32"
     >
       <div className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
-        <div>
+        <div className="min-w-0">
           <span className="border-line bg-surface text-muted inline-flex items-center gap-2 rounded-full border px-3 py-1 font-mono text-[11px] tracking-[0.16em] uppercase">
             <span className="bg-accent h-1.5 w-1.5 rounded-full" aria-hidden />
             Hacktoberfest 2026

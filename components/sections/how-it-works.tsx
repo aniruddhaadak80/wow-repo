@@ -28,7 +28,7 @@ export function HowItWorks() {
   return (
     <section id="how" className="container-x border-line scroll-mt-24 border-t py-24 lg:py-32">
       <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-        <div className="lg:sticky lg:top-28 lg:self-start">
+        <div className="min-w-0 lg:sticky lg:top-28 lg:self-start">
           <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl">From clone to deploy.</h2>
           <p className="text-muted mt-5 max-w-[42ch] text-lg leading-relaxed">
             Four commands take this repository from an empty directory to a live URL. No server, no

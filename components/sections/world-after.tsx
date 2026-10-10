@@ -26,6 +26,7 @@ export function WorldAfter() {
     <section id="after" className="container-x border-line scroll-mt-24 border-t py-24 lg:py-32">
       <div className="max-w-[65ch]">
         <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl">
+          {' '}
           What the superintelligence debate actually says.
         </h2>
         <p className="text-muted mt-5 text-lg leading-relaxed">
@@ -35,7 +36,7 @@ export function WorldAfter() {
       </div>
 
       <div className="mt-12 grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
-        <ol className="flex flex-col gap-9">
+        <ol className="flex min-w-0 flex-col gap-9">
           {scenarios.map((scenario) => (
             <li key={scenario.slug} className="grid gap-2 sm:grid-cols-[7ch_1fr] sm:gap-6">
               <span className="text-accent font-mono text-sm tracking-tighter">

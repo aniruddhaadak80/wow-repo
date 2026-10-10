@@ -6,7 +6,7 @@ export function Hero() {
 
   return (
     <section className="container-x grid items-center gap-12 py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:py-24">
-      <div>
+      <div className="min-w-0">
         <h1 className="text-5xl leading-[1.04] font-bold tracking-tighter sm:text-6xl lg:text-7xl">
           Skills that ship. Sites that <em className="text-accent italic">wow</em>.
         </h1>
@@ -24,7 +24,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="lg:pl-4">
+      <div className="min-w-0 lg:pl-4">
         <CatalogSearch entries={entries} />
       </div>
     </section>

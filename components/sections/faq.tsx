@@ -36,7 +36,7 @@ export function Faq() {
   return (
     <section id="faq" className="container-x border-line scroll-mt-24 border-t py-24 lg:py-32">
       <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-        <div>
+        <div className="min-w-0">
           <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl">
             Questions worth answering.
           </h2>
