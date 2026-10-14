@@ -2,10 +2,11 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { GithubLogo, House, MagnifyingGlass, Sparkle } from '@phosphor-icons/react'
+import { BookmarkSimple, GithubLogo, House, MagnifyingGlass, Sparkle } from '@phosphor-icons/react'
 import { cn } from '@/lib/cn'
 import { GITHUB_URL, Z } from '@/lib/constants'
 import { usePalette } from '@/components/palette-provider'
+import { SavedBadge } from '@/components/saved-badge'
 
 interface Tab {
   label: string
@@ -23,6 +24,12 @@ const TABS: Tab[] = [
     icon: Sparkle,
     match: (path) => path.startsWith('/skills'),
   },
+  {
+    label: 'Saved',
+    href: '/bookmarks',
+    icon: BookmarkSimple,
+    match: (path) => path.startsWith('/bookmarks'),
+  },
   { label: 'Search', href: null, icon: MagnifyingGlass, match: () => false },
   {
     label: 'GitHub',
@@ -36,7 +43,8 @@ const TABS: Tab[] = [
 /**
  * Bottom tab bar, mobile only. App chrome: thumb-reachable navigation, 64px
  * targets, and a safe-area pad so the iOS home indicator never overlaps a
- * label. Desktop keeps the top nav; the bar hides at md and up.
+ * label. Desktop keeps the top nav; the bar hides at md and up. The Saved tab
+ * carries a live count of the entries kept in this browser.
  */
 export function MobileTabBar() {
   const pathname = usePathname()
@@ -52,6 +60,12 @@ export function MobileTabBar() {
         {TABS.map((tab) => {
           const active = tab.match(pathname)
           const icon = <tab.icon weight="regular" className="h-5 w-5" aria-hidden />
+          const label = (
+            <span className="flex items-center text-[10px] font-medium">
+              {tab.label}
+              {tab.href === '/bookmarks' && <SavedBadge />}
+            </span>
+          )
 
           return (
             <li key={tab.label} className="flex-1">
@@ -62,7 +76,7 @@ export function MobileTabBar() {
                   className="text-muted flex h-full w-full flex-col items-center justify-center gap-1 transition-colors active:scale-95"
                 >
                   {icon}
-                  <span className="text-[10px] font-medium">{tab.label}</span>
+                  {label}
                 </button>
               ) : (
                 <Link
@@ -75,7 +89,7 @@ export function MobileTabBar() {
                   )}
                 >
                   {icon}
-                  <span className="text-[10px] font-medium">{tab.label}</span>
+                  {label}
                 </Link>
               )}
             </li>

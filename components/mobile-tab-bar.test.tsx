@@ -5,8 +5,8 @@ import { MobileTabBar } from './mobile-tab-bar'
 
 /*
  * The tab bar is the app chrome on mobile, so its contract is small and worth
- * pinning: four tabs, the current route marked as current, and search opening
- * the command palette rather than navigating.
+ * pinning: the current route is marked as current, the Saved tab points at the
+ * local shelf, and search opens the command palette rather than navigating.
  */
 vi.mock('next/navigation', () => ({
   usePathname: () => '/skills',
@@ -30,6 +30,11 @@ describe('MobileTabBar', () => {
     render(<MobileTabBar />)
     await user.click(screen.getByRole('button', { name: 'Search' }))
     expect(openPalette).toHaveBeenCalledWith(true)
+  })
+
+  it('links the Saved tab to the local shelf', () => {
+    render(<MobileTabBar />)
+    expect(screen.getByRole('link', { name: 'Saved' })).toHaveAttribute('href', '/bookmarks')
   })
 
   it('opens external tabs in a new tab with safe rel', () => {
