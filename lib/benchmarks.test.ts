@@ -1,15 +1,22 @@
 import { describe, expect, it } from 'vitest'
 import {
   SORT_OPTIONS,
+  efficiency,
   filterByTrack,
   formatCost,
+  formatDate,
   formatDelta,
   formatLatency,
   formatScore,
   getBenchmarkEntries,
+  getBenchmarkIds,
   getEntryById,
+  getRelatedEntries,
+  getSuiteLabels,
+  getSuiteLeaders,
   getTrackCount,
   hasAllTracks,
+  isEfficientLeader,
   rankEntries,
   searchEntries,
   sortEntries,
@@ -194,5 +201,140 @@ describe('formatters', () => {
   it('formats latency and cost', () => {
     expect(formatLatency(38.44)).toBe('38.4s')
     expect(formatCost(0.4)).toBe('$0.40')
+  })
+
+  it('formats an ISO date without drifting across timezones', () => {
+    expect(formatDate('2026-10-04')).toBe('Oct 4')
+    expect(formatDate('2026-01-01')).toBe('Jan 1')
+  })
+})
+
+describe('getBenchmarkIds', () => {
+  it('returns one id per run, matching the dataset', () => {
+    expect(getBenchmarkIds()).toHaveLength(entries.length)
+    expect(getBenchmarkIds()).toContain('wow-runner')
+    expect(new Set(getBenchmarkIds()).size).toBe(getBenchmarkIds().length)
+  })
+
+  it('resolves every id back to an entry', () => {
+    for (const id of getBenchmarkIds()) {
+      expect(getEntryById(id)?.id).toBe(id)
+    }
+  })
+})
+
+describe('getRelatedEntries', () => {
+  it('never returns the entry itself', () => {
+    for (const entry of entries) {
+      expect(getRelatedEntries(entry).some((other) => other.id === entry.id)).toBe(false)
+    }
+  })
+
+  it('prefers the same track, ordered by score', () => {
+    const llm = getEntryById('gpt-5-2')!
+    const related = getRelatedEntries(llm, 3)
+    expect(related).toHaveLength(3)
+    expect(related.every((other) => other.track === 'llm')).toBe(true)
+    const scores = related.map((other) => other.score)
+    expect([...scores].sort((a, b) => b - a)).toEqual(scores)
+  })
+
+  it('falls back to the other track when the track runs out', () => {
+    const agent = getEntryById('spool')!
+    const others = entries.filter((entry) => entry.track === 'agent').length - 1
+    const models = entries.filter((entry) => entry.track === 'llm').length
+
+    // Ask for more than the track can supply: the tail must come from the other track.
+    const related = getRelatedEntries(agent, others + 3)
+    expect(related).toHaveLength(others + 3)
+    expect(related.slice(0, others).every((o) => o.track === 'agent')).toBe(true)
+    expect(related.slice(others)).toHaveLength(3)
+    expect(related.slice(others).every((o) => o.track === 'llm')).toBe(true)
+    expect(others + models).toBeGreaterThan(others + 3)
+  })
+
+  it('can return the whole dataset minus one', () => {
+    const related = getRelatedEntries(entries[0], entries.length)
+    expect(related).toHaveLength(entries.length - 1)
+    expect(new Set(related.map((o) => o.id)).size).toBe(related.length)
+  })
+
+  it('honours the requested count', () => {
+    expect(getRelatedEntries(entries[0], 1)).toHaveLength(1)
+    expect(getRelatedEntries(entries[0], 0)).toHaveLength(0)
+  })
+})
+
+describe('suite analysis', () => {
+  it('lists every distinct suite exactly once', () => {
+    const labels = getSuiteLabels()
+    expect(new Set(labels).size).toBe(labels.length)
+    const perEntry = new Set(entries.flatMap((e) => e.breakdown.map((b) => b.label)))
+    expect([...perEntry].sort()).toEqual([...labels].sort())
+  })
+
+  it('names the highest scorer for every suite', () => {
+    for (const suite of getSuiteLeaders(entries)) {
+      const scored = entries
+        .filter((entry) => entry.breakdown.some((item) => item.label === suite.label))
+        .map((entry) => ({
+          entry,
+          score: entry.breakdown.find((item) => item.label === suite.label)!.score,
+        }))
+      const best = scored.reduce((a, b) => (a.score > b.score ? a : b))
+      expect(suite.leader.id).toBe(best.entry.id)
+    }
+  })
+
+  it('reports spread as best minus worst, never negative', () => {
+    for (const suite of getSuiteLeaders(entries)) {
+      expect(suite.spread).toBeGreaterThanOrEqual(0)
+      const scores = entries
+        .filter((entry) => entry.breakdown.some((item) => item.label === suite.label))
+        .map((entry) => entry.breakdown.find((item) => item.label === suite.label)!.score)
+      expect(suite.spread).toBe(Math.max(...scores) - Math.min(...scores))
+    }
+  })
+
+  it('returns no leaders when there are no entries', () => {
+    expect(getSuiteLeaders([])).toEqual([])
+    expect(getSuiteLabels([])).toEqual([])
+  })
+})
+
+describe('efficiency', () => {
+  it('is score divided by cost', () => {
+    const entry = getEntryById('deepseek-v3-2')!
+    expect(efficiency(entry)).toBeCloseTo(entry.score / entry.cost, 6)
+  })
+
+  it('does not divide by zero', () => {
+    const free = { ...entries[0], cost: 0 }
+    expect(efficiency(free)).toBe(Number.POSITIVE_INFINITY)
+    expect(Number.isNaN(efficiency(free))).toBe(false)
+  })
+
+  it('marks the cheapest strong runner as the value leader, not the top scorer', () => {
+    const leaders = entries.filter(isEfficientLeader)
+    expect(leaders.length).toBeGreaterThan(0)
+    // Every leader must beat every other run in its own track on score per cent.
+    for (const leader of leaders) {
+      const peers = entries.filter((entry) => entry.track === leader.track)
+      for (const peer of peers) {
+        expect(efficiency(peer)).toBeLessThanOrEqual(efficiency(leader) + Number.EPSILON)
+      }
+    }
+  })
+
+  it('never marks the same run twice per track', () => {
+    const perTrack = new Map<string, number>()
+    for (const leader of entries.filter(isEfficientLeader)) {
+      perTrack.set(leader.track, (perTrack.get(leader.track) ?? 0) + 1)
+    }
+    for (const count of perTrack.values()) expect(count).toBe(1)
+  })
+
+  it('returns false for a track with no contenders', () => {
+    expect(isEfficientLeader(entries[0])).toBeTypeOf('boolean')
   })
 })

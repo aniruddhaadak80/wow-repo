@@ -44,7 +44,7 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/#benchmarks" className="text-muted hover:text-ink transition-colors">
+                <Link href="/benchmarks" className="text-muted hover:text-ink transition-colors">
                   Benchmarks
                 </Link>
               </li>
@@ -139,6 +139,21 @@ export function Footer() {
               <li>
                 <Link href="/docs" className="text-muted hover:text-ink transition-colors">
                   Docs
+                </Link>
+              </li>
+              <li>
+                <Link href="/stats" className="text-muted hover:text-ink transition-colors">
+                  Registry stats
+                </Link>
+              </li>
+              <li>
+                <Link href="/glossary" className="text-muted hover:text-ink transition-colors">
+                  Glossary
+                </Link>
+              </li>
+              <li>
+                <Link href="/bookmarks" className="text-muted hover:text-ink transition-colors">
+                  Saved entries
                 </Link>
               </li>
               <li>

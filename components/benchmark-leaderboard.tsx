@@ -1,8 +1,9 @@
 'use client'
 
 import { useDeferredValue, useMemo, useState, useTransition } from 'react'
+import Link from 'next/link'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { CaretDown, CaretUp, Flask, MagnifyingGlass, X } from '@phosphor-icons/react'
+import { ArrowUpRight, CaretDown, CaretUp, Flask, MagnifyingGlass, X } from '@phosphor-icons/react'
 import { EASE } from '@/lib/constants'
 import { cn } from '@/lib/cn'
 import { CountUp } from '@/components/count-up'
@@ -10,6 +11,7 @@ import {
   SORT_OPTIONS,
   filterByTrack,
   formatCost,
+  formatDate,
   formatDelta,
   formatLatency,
   formatScore,
@@ -378,9 +380,17 @@ function LeaderboardRow({
                 </div>
                 <div>
                   <dt className="mono-label">updated</dt>
-                  <dd className="text-ink mt-1 font-mono text-sm">{entry.updatedAt}</dd>
+                  <dd className="text-ink mt-1 font-mono text-sm">{formatDate(entry.updatedAt)}</dd>
                 </div>
               </dl>
+
+              <Link
+                href={`/benchmarks/${entry.id}`}
+                className="text-accent inline-flex items-center gap-1.5 text-sm font-medium hover:brightness-110"
+              >
+                Full run
+                <ArrowUpRight weight="regular" className="h-3.5 w-3.5" />
+              </Link>
             </div>
           </motion.div>
         )}

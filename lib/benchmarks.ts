@@ -141,3 +141,72 @@ export function formatDate(iso: string): string {
 export function hasAllTracks(): boolean {
   return BENCHMARK_TRACKS.every((track) => getTrackCount(track) > 0)
 }
+
+/** Route params for `generateStaticParams` on /benchmarks/[id]. */
+export function getBenchmarkIds(): string[] {
+  return benchmarkEntries.map((entry) => entry.id)
+}
+
+/**
+ * Same-track entries first, then the other track, ranked by score. Neighbours
+ * on a detail page should be the runs a reader would actually compare against.
+ */
+export function getRelatedEntries(entry: BenchmarkEntry, count = 4): BenchmarkEntry[] {
+  const sameTrack = benchmarkEntries.filter(
+    (other) => other.track === entry.track && other.id !== entry.id,
+  )
+  const otherTrack = benchmarkEntries.filter(
+    (other) => other.track !== entry.track && other.id !== entry.id,
+  )
+  const byScore = (a: BenchmarkEntry, b: BenchmarkEntry) => b.score - a.score
+  return [...sameTrack.sort(byScore), ...otherTrack.sort(byScore)].slice(0, count)
+}
+
+/** Every distinct suite label in the dataset, in first-seen order. */
+export function getSuiteLabels(entries: BenchmarkEntry[] = benchmarkEntries): string[] {
+  const seen = new Set<string>()
+  for (const entry of entries) {
+    for (const item of entry.breakdown) seen.add(item.label)
+  }
+  return [...seen]
+}
+
+export interface SuiteLeader {
+  label: string
+  leader: BenchmarkEntry
+  /** Spread between the best and worst score for that suite, in points. */
+  spread: number
+}
+
+/** Who wins each suite, and how tightly the field is packed. */
+export function getSuiteLeaders(entries: BenchmarkEntry[]): SuiteLeader[] {
+  return getSuiteLabels(entries).map((label) => {
+    const scored = entries
+      .filter((entry) => entry.breakdown.some((item) => item.label === label))
+      .map((entry) => ({
+        entry,
+        score: entry.breakdown.find((item) => item.label === label)!.score,
+      }))
+      .sort((a, b) => b.score - a.score)
+
+    const best = scored[0]
+    const worst = scored[scored.length - 1]
+    return { label, leader: best.entry, spread: best.score - worst.score }
+  })
+}
+
+/**
+ * Score earned per cent spent. Higher is better. Guards the division so a
+ * free entry cannot produce Infinity.
+ */
+export function efficiency(entry: BenchmarkEntry): number {
+  if (entry.cost <= 0) return Number.POSITIVE_INFINITY
+  return entry.score / entry.cost
+}
+
+/** True when the entry is the strongest score-per-dollar in its track. */
+export function isEfficientLeader(entry: BenchmarkEntry): boolean {
+  const contenders = benchmarkEntries.filter((other) => other.track === entry.track)
+  if (contenders.length === 0) return false
+  return contenders.every((other) => efficiency(other) <= efficiency(entry))
+}

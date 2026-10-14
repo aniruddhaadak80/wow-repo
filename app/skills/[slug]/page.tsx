@@ -4,6 +4,9 @@ import { ArrowLeft, ArrowUpRight, Clock } from '@phosphor-icons/react/ssr'
 import type { Metadata } from 'next'
 import { CopyButton } from '@/components/copy-button'
 import { SkillCard } from '@/components/skill-card'
+import { BookmarkButton } from '@/components/bookmark-button'
+import { ShareButton } from '@/components/share-button'
+import { RecentlyViewed } from '@/components/recently-viewed'
 import { KIND_META } from '@/content/registry'
 import { formatEntryDate, getEntryBySlug, getEntrySlugs, getRelatedEntries } from '@/lib/registry'
 import { SITE_URL } from '@/lib/constants'
@@ -87,6 +90,11 @@ export default async function SkillPage(props: PageProps) {
             </div>
           </div>
 
+          <div className="mt-8 flex flex-wrap items-center gap-2">
+            <BookmarkButton slug={entry.slug} name={entry.name} />
+            <ShareButton path={`/skills/${entry.slug}`} title={entry.name} />
+          </div>
+
           <dl className="border-line mt-10 grid grid-cols-2 gap-6 border-t pt-8 sm:grid-cols-4">
             <div>
               <dt className="mono-label flex items-center gap-1.5">
@@ -165,6 +173,8 @@ export default async function SkillPage(props: PageProps) {
           ))}
         </div>
       </section>
+
+      <RecentlyViewed current={entry.slug} />
     </article>
   )
 }

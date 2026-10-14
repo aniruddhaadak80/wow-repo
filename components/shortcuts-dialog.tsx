@@ -18,6 +18,9 @@ const SHORTCUTS: Shortcut[] = [
   { keys: ['G', 'S'], label: 'Go to the registry' },
   { keys: ['G', 'C'], label: 'Go to the comparison board' },
   { keys: ['G', 'D'], label: 'Go to the docs' },
+  { keys: ['G', 'T'], label: 'Go to the registry stats' },
+  { keys: ['G', 'G'], label: 'Go to the glossary' },
+  { keys: ['G', 'B'], label: 'Go to your saved entries' },
   { keys: ['G', 'R'], label: 'Open a random entry' },
   { keys: ['?'], label: 'Show this dialog' },
   { keys: ['Esc'], label: 'Close any overlay' },
@@ -67,6 +70,9 @@ export function ShortcutsDialog() {
         if (second === 's') router.push('/skills')
         if (second === 'c') router.push('/compare')
         if (second === 'd') router.push('/docs')
+        if (second === 't') router.push('/stats')
+        if (second === 'g') router.push('/glossary')
+        if (second === 'b') router.push('/bookmarks')
         if (second === 'r') router.push('/random')
         return
       }

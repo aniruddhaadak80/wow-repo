@@ -5,8 +5,12 @@ import { useRouter } from 'next/navigation'
 import { AnimatePresence, motion } from 'motion/react'
 import {
   ArrowUpRight,
+  BookmarkSimple,
+  BookOpen,
   Books,
+  ChartBar,
   Check,
+  Flask,
   MagnifyingGlass,
   Moon,
   Package,
@@ -98,11 +102,39 @@ function PalettePanel() {
         run: () => router.push('/discoveries'),
       },
       {
+        id: 'action-benchmarks',
+        label: 'Benchmark scoreboard',
+        hint: 'Page',
+        icon: <Flask weight="regular" className="h-4 w-4" />,
+        run: () => router.push('/benchmarks'),
+      },
+      {
         id: 'action-after',
         label: 'After the world',
         hint: 'Page',
         icon: <Quotes weight="regular" className="h-4 w-4" />,
         run: () => router.push('/superintelligence'),
+      },
+      {
+        id: 'action-stats',
+        label: 'Registry stats',
+        hint: 'Page',
+        icon: <ChartBar weight="regular" className="h-4 w-4" />,
+        run: () => router.push('/stats'),
+      },
+      {
+        id: 'action-glossary',
+        label: 'Glossary',
+        hint: 'Page',
+        icon: <BookOpen weight="regular" className="h-4 w-4" />,
+        run: () => router.push('/glossary'),
+      },
+      {
+        id: 'action-bookmarks',
+        label: 'Saved entries',
+        hint: 'Page',
+        icon: <BookmarkSimple weight="regular" className="h-4 w-4" />,
+        run: () => router.push('/bookmarks'),
       },
       {
         id: 'action-theme',

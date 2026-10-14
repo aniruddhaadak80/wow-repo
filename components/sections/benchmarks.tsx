@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import { ArrowUpRight } from '@phosphor-icons/react/ssr'
 import { BenchmarkLeaderboard } from '@/components/benchmark-leaderboard'
 import { getBenchmarkEntries } from '@/lib/benchmarks'
 
@@ -20,6 +22,14 @@ export function Benchmarks() {
       <div className="mt-12">
         <BenchmarkLeaderboard entries={entries} />
       </div>
+
+      <Link
+        href="/benchmarks"
+        className="text-accent mt-8 inline-flex items-center gap-1.5 text-sm font-medium hover:brightness-110"
+      >
+        Full scoreboard, suite winners, and every run
+        <ArrowUpRight weight="regular" className="h-4 w-4" />
+      </Link>
     </section>
   )
 }
