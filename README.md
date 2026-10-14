@@ -22,7 +22,7 @@
 
 <!-- name: wow-repo -->
 <!-- description: Production-grade Next.js showcase of the open agent stack. A searchable registry, working demos, and one codebase that deploys to both Vercel and GitHub Pages. -->
-<!-- topics: agent-skills, ai-agents, developer-tools, mcp, motion, nextjs, open-source, react, showcase, tailwindcss, typescript, vercel -->
+<!-- topics: agent-skills, ai-agents, developer-tools, mcp, motion, nextjs, open-source, react, showcase, tailwindcss, typescript, vercel, accessibility, design-system, hacktoberfest, lighthouse, openapi, pwa, rss, web-performance -->
 
 A production-ready Next.js showcase of the open agent stack: **skills, MCP servers, public APIs, protocols, harnesses, and free software**, in one searchable registry. Built to make people say **wow**.
 
@@ -32,16 +32,18 @@ Most "wow" repos are a hero, three cards, and a gradient. This one is a working 
 
 Use this repo as a reference implementation, a starter, or a source of copy-pasteable patterns.
 
-| Capability                          | When to reach for it                                                               | Where                                                      |
-| ----------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| **Typed content layer**             | You want data in `content/*.ts`, queries in `lib/*.ts`, zero fetches in components | `content/registry.ts`, `lib/registry.ts`                   |
-| **Two-target deploy**               | You need one codebase on Vercel (full) and GitHub Pages (static)                   | `next.config.ts`, `lib/pages-export.ts`                    |
-| **Client islands, not client apps** | You want interactivity without turning every page into a SPA                       | `components/compare-board.tsx`, `components/phone-app.tsx` |
-| **URL as state**                    | Your filter/selection UI should be shareable and reload-safe                       | `components/compare-board.tsx` (`useSyncExternalStore`)    |
-| **Design-token discipline**         | One accent, one radius scale, one z-index scale, enforced                          | `app/globals.css`, `lib/constants.ts`                      |
-| **Motion with a reason**            | Transform + opacity only, `useReducedMotion` everywhere                            | `components/sections/manifesto.tsx`                        |
-| **Dataset integrity tests**         | Your content modules should fail CI when malformed                                 | `content/*.test.ts` (120 tests total)                      |
-| **Lighthouse as a gate**            | Accessibility and perf regressions block the merge                                 | `.lighthouserc.json`, `.github/workflows/lighthouse.yml`   |
+| Capability                          | When to reach for it                                                               | Where                                                        |
+| ----------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **Typed content layer**             | You want data in `content/*.ts`, queries in `lib/*.ts`, zero fetches in components | `content/registry.ts`, `lib/registry.ts`                     |
+| **Two-target deploy**               | You need one codebase on Vercel (full) and GitHub Pages (static)                   | `next.config.ts`, `lib/pages-export.ts`                      |
+| **Client islands, not client apps** | You want interactivity without turning every page into a SPA                       | `components/compare-board.tsx`, `components/phone-app.tsx`   |
+| **URL as state**                    | Your filter/selection UI should be shareable and reload-safe                       | `components/compare-board.tsx` (`useSyncExternalStore`)      |
+| **Design-token discipline**         | One accent, one radius scale, one z-index scale, enforced                          | `app/globals.css`, `lib/constants.ts`                        |
+| **Motion with a reason**            | Transform + opacity only, `useReducedMotion` everywhere                            | `components/sections/manifesto.tsx`                          |
+| **Dataset integrity tests**         | Your content modules should fail CI when malformed                                 | `content/*.test.ts` (187 tests total)                        |
+| **Local-first state**               | Saves, recents, and filters should work with no account and no backend             | `lib/local-collections.ts`, `components/bookmark-button.tsx` |
+| **Derived analytics**               | A dashboard should compute from the data, never from hand-typed numbers            | `lib/stats.ts`, `app/stats/page.tsx`                         |
+| **Lighthouse as a gate**            | Accessibility and perf regressions block the merge                                 | `.lighthouserc.json`, `.github/workflows/lighthouse.yml`     |
 
 ## Screenshots
 
@@ -57,10 +59,18 @@ Use this repo as a reference implementation, a starter, or a source of copy-past
   <img src="./docs/images/docs.png" alt="In-repo docs: architecture, design system, deploy" width="820" />
 </p>
 
+| Registry stats                                                                                                             | Glossary                                                                                             |
+| -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| <img src="./docs/images/stats.png" alt="Registry stats: computed counts by kind, craft, month, and licence" width="400" /> | <img src="./docs/images/glossary.png" alt="Glossary: agent terms, searchable offline" width="400" /> |
+
+| Saved entries                                                                                            | Benchmark scoreboard                                                                                                |
+| -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| <img src="./docs/images/bookmarks.png" alt="Saved entries: a local shelf with no account" width="400" /> | <img src="./docs/images/benchmarks.png" alt="Benchmark scoreboard: sortable runs over typed content" width="400" /> |
+
 <p align="center">
   <img src="./docs/images/skill-detail.png" alt="Skill detail page with copyable command" width="400" />
   &nbsp;
-  <img src="./docs/images/home-mobile.png" alt="Mobile: PWA with bottom tab bar" width="200" />
+  <img src="./docs/images/home-mobile.png" alt="Mobile: PWA with five-tab bar including a Saved tab and live count" width="200" />
 </p>
 
 ## Quickstart
@@ -79,17 +89,17 @@ Everything runs with **zero API keys**: the catalog, the demos, the swarm runner
 flowchart TB
     subgraph content["content/ — typed data, no markup"]
         REG["registry.ts (108 entries)"]
-        MORE["benchmarks · findings<br/>superintelligence · docs"]
+        MORE["benchmarks · glossary<br/>findings · docs<br/>superintelligence"]
     end
     subgraph lib["lib/ — queries"]
-        Q["getEntries · queryEntries<br/>buildCompareRows · pages-export"]
+        Q["getEntries · queryEntries<br/>buildCompareRows · pages-export<br/>registryStats · queryGlossary"]
     end
     subgraph app["app/ — server components"]
-        P["/ · /skills · /compare<br/>/docs · /agents · /discoveries"]
+        P["/ · /skills · /compare<br/>/docs · /agents · /discoveries<br/>/stats · /glossary · /bookmarks · /benchmarks"]
         API["/api/* — Vercel only"]
     end
     subgraph islands["Client leaves — the only JS shipped"]
-        I["search · phone app<br/>swarm runner · palette<br/>compare board · tab bar"]
+        I["search · phone app<br/>swarm runner · palette<br/>compare board · glossary search<br/>saved shelf · recents · tab bar"]
     end
     REG --> Q
     MORE --> Q
@@ -130,8 +140,8 @@ flowchart LR
     A["a change"] --> B["tsc --noEmit"]
     B --> C["eslint"]
     C --> D["prettier --check"]
-    D --> E["vitest (120 tests)"]
-    E --> F["next build (169 pages)"]
+    D --> E["vitest (187 tests)"]
+    E --> F["next build (187 pages)"]
     F --> G["Lighthouse CI<br/>a11y = 1.0 · perf ≥ 0.9"]
     G --> H["main stays green"]
 ```
@@ -164,7 +174,7 @@ flowchart LR
 - Live catalog search in the hero (filters the real data, navigates for real)
 - A phone mini-app: search, open, and "install" a skill inside a device frame (also the installable PWA surface)
 - The swarm runner: a lead agent fans a task out to real registry entries and merges the reports
-- The benchmark scoreboard: sortable runs over typed benchmark content
+- The benchmark scoreboard: a dedicated `/benchmarks` route with sortable runs and per-run detail pages over typed content
 
 **Comparison, docs, and feeds**
 
@@ -173,6 +183,13 @@ flowchart LR
 - `/random`: entry roulette, never twice in a row per session
 - `/feed.xml`: RSS of the 30 newest entries
 - ItemList and BreadcrumbList JSON-LD alongside the WebSite schema
+
+**Knowledge and analytics**
+
+- `/stats`: a registry dashboard computed at build time. Counts by kind and craft, additions per month (quiet months included), a craft-by-kind matrix, and the licence mix, all derived from `content/registry.ts`
+- `/glossary`: the vocabulary of the open agent stack defined once and searchable offline, with a see-also graph the tests keep honest
+- `/bookmarks`: a private shelf kept in this browser through `useSyncExternalStore`, no account and no backend, reachable from a live-count tab on mobile
+- Recently viewed and share surfaces: the last entries you opened, and a share button that uses the Web Share API with a copy fallback
 
 **Platform**
 
@@ -189,7 +206,8 @@ app/                    # App Router: pages, API routes, metadata routes
 components/             # Section components and client islands
 components/sections/    # One file per page section
 content/                # Typed content modules (+ co-located tests)
-lib/                    # Queries, constants, compare/docs helpers
+lib/                    # Queries, constants, stats/glossary/compare/docs helpers,
+                        # and local-collections.ts (the localStorage store)
 docs/diagrams/          # Mermaid sources for the diagrams above
 docs/images/            # Banner, logo, and real screenshots
 .github/                # CI, Pages, Lighthouse workflows; issue forms; PR template
