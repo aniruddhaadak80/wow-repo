@@ -1,6 +1,7 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { Suspense, useCallback, useMemo, useState } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { MagnifyingGlass, X } from '@phosphor-icons/react'
 import { CRAFTS, KIND_META, KINDS, getEntries, getRegistryCounts } from '@/lib/registry'
@@ -12,14 +13,77 @@ import { EASE } from '@/lib/constants'
 type KindFilter = 'All' | Kind
 type CraftFilter = 'All' | Craft
 
-export function SkillsExplorer() {
+function parseKind(value: string | null): KindFilter {
+  return KINDS.some((kind) => kind === value) ? (value as Kind) : 'All'
+}
+
+function parseCraft(value: string | null): CraftFilter {
+  return CRAFTS.some((craft) => craft === value) ? (value as Craft) : 'All'
+}
+
+function countText(length: number, noun: string) {
+  return `${length} ${length === 1 ? noun : `${noun}s`}`
+}
+
+function SkeletonRows() {
+  return (
+    <div className="border-line mt-6 rounded-2xl border border-dashed py-20 text-center">
+      <div className="bg-elevated mx-auto mt-5 h-5 w-56 max-w-full animate-pulse rounded" />
+      <div className="bg-elevated mx-auto mt-3 h-4 w-72 max-w-full animate-pulse rounded" />
+    </div>
+  )
+}
+
+function Explorer() {
   const reduce = useReducedMotion()
-  const [query, setQuery] = useState('')
-  const [kind, setKind] = useState<KindFilter>('All')
-  const [craft, setCraft] = useState<CraftFilter>('All')
+  const params = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
+
+  // Filter state starts empty during the static prerender, then hydrates from
+  // the URL. That is the trade for keeping the page itself fully static.
+  const [query, setQuery] = useState(params.get('q') ?? '')
+  const [kind, setKind] = useState<KindFilter>(() => parseKind(params.get('kind')))
+  const [craft, setCraft] = useState<CraftFilter>(() => parseCraft(params.get('craft')))
 
   const entries = getEntries()
   const counts = getRegistryCounts()
+
+  const syncParams = useCallback(
+    (next: { kind: KindFilter; craft: CraftFilter; q: string }, push: boolean) => {
+      const sp = new URLSearchParams(params.toString())
+      next.kind === 'All' ? sp.delete('kind') : sp.set('kind', next.kind)
+      next.craft === 'All' ? sp.delete('craft') : sp.set('craft', next.craft)
+      next.q ? sp.set('q', next.q) : sp.delete('q')
+      const url = sp.size ? `${pathname}?${sp.toString()}` : pathname
+      // Typing should not flood history; a deliberate filter choice should.
+      if (push) router.push(url, { scroll: false })
+      else router.replace(url, { scroll: false })
+    },
+    [params, pathname, router],
+  )
+
+  const pickKind = (option: KindFilter) => {
+    setKind(option)
+    syncParams({ kind: option, craft, q: query }, true)
+  }
+
+  const pickCraft = (option: CraftFilter) => {
+    setCraft(option)
+    syncParams({ kind, craft: option, q: query }, true)
+  }
+
+  const onQuery = (value: string) => {
+    setQuery(value)
+    syncParams({ kind, craft, q: value }, false)
+  }
+
+  function reset() {
+    setQuery('')
+    setKind('All')
+    setCraft('All')
+    router.push(pathname, { scroll: false })
+  }
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -38,12 +102,6 @@ export function SkillsExplorer() {
     })
   }, [entries, query, kind, craft])
 
-  function reset() {
-    setQuery('')
-    setKind('All')
-    setCraft('All')
-  }
-
   return (
     <div>
       <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -54,7 +112,7 @@ export function SkillsExplorer() {
           />
           <input
             value={query}
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) => onQuery(event.target.value)}
             placeholder="Search by name, craft, kind, or trigger"
             className="border-line bg-surface text-ink placeholder:text-muted focus:border-accent h-11 w-full rounded-full border pr-10 pl-11 text-sm transition-colors outline-none"
             aria-label="Search the registry"
@@ -62,7 +120,7 @@ export function SkillsExplorer() {
           {query && (
             <button
               type="button"
-              onClick={() => setQuery('')}
+              onClick={() => onQuery('')}
               className="text-muted hover:text-ink absolute top-1/2 right-3 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full transition-colors"
               aria-label="Clear search"
             >
@@ -80,7 +138,7 @@ export function SkillsExplorer() {
               key={option}
               type="button"
               aria-pressed={kind === option}
-              onClick={() => setKind(option)}
+              onClick={() => pickKind(option)}
               className={cn(
                 'h-9 rounded-full border px-4 text-sm font-medium transition-all duration-200 active:scale-[0.98]',
                 kind === option
@@ -101,7 +159,7 @@ export function SkillsExplorer() {
             key={option}
             type="button"
             aria-pressed={craft === option}
-            onClick={() => setCraft(option)}
+            onClick={() => pickCraft(option)}
             className={cn(
               'h-8 rounded-full border px-3.5 text-xs font-medium transition-all duration-200 active:scale-[0.98]',
               craft === option
@@ -115,7 +173,7 @@ export function SkillsExplorer() {
       </div>
 
       <p className="mono-label mt-8" aria-live="polite">
-        {filtered.length} {filtered.length === 1 ? 'entry' : 'entries'}
+        {countText(filtered.length, 'entry')}
         {kind !== 'All' ? ` in ${KIND_META[kind].label}` : ''}
         {craft !== 'All' ? ` for ${craft}` : ''}
       </p>
@@ -157,5 +215,19 @@ export function SkillsExplorer() {
         </motion.div>
       )}
     </div>
+  )
+}
+
+/**
+ * Filter state lives in the URL so a filtered view is shareable and the back
+ * button walks back through it. The explorer is a client leaf, so it reads the
+ * params after hydration; the Suspense boundary is what lets the page around
+ * it stay prerendered.
+ */
+export function SkillsExplorer() {
+  return (
+    <Suspense fallback={<SkeletonRows />}>
+      <Explorer />
+    </Suspense>
   )
 }
