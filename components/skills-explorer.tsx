@@ -1,7 +1,6 @@
 'use client'
 
-import { Suspense, useCallback, useMemo, useState } from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { MagnifyingGlass, X } from '@phosphor-icons/react'
 import { CRAFTS, KIND_META, KINDS, getEntries, getRegistryCounts } from '@/lib/registry'
@@ -25,42 +24,49 @@ function countText(length: number, noun: string) {
   return `${length} ${length === 1 ? noun : `${noun}s`}`
 }
 
-function SkeletonRows() {
-  return (
-    <div className="border-line mt-6 rounded-2xl border border-dashed py-20 text-center">
-      <div className="bg-elevated mx-auto mt-5 h-5 w-56 max-w-full animate-pulse rounded" />
-      <div className="bg-elevated mx-auto mt-3 h-4 w-72 max-w-full animate-pulse rounded" />
-    </div>
-  )
-}
-
-function Explorer() {
+export function SkillsExplorer() {
   const reduce = useReducedMotion()
-  const params = useSearchParams()
-  const router = useRouter()
-  const pathname = usePathname()
-
-  // Filter state starts empty during the static prerender, then hydrates from
-  // the URL. That is the trade for keeping the page itself fully static.
-  const [query, setQuery] = useState(params.get('q') ?? '')
-  const [kind, setKind] = useState<KindFilter>(() => parseKind(params.get('kind')))
-  const [craft, setCraft] = useState<CraftFilter>(() => parseCraft(params.get('craft')))
+  const [query, setQuery] = useState('')
+  const [kind, setKind] = useState<KindFilter>('All')
+  const [craft, setCraft] = useState<CraftFilter>('All')
 
   const entries = getEntries()
   const counts = getRegistryCounts()
 
+  /*
+   * Filter state lives in the URL so a filtered view is shareable and the back
+   * button walks back through it.
+   *
+   * The prerendered HTML carries the full unfiltered grid, which is what
+   * Lighthouse scores and what a crawler reads. Reading the params in an effect
+   * (rather than through useSearchParams) keeps that HTML intact: the page
+   * stays fully static, and the filter applies the moment the component mounts.
+   */
+  useEffect(() => {
+    const read = () => {
+      const sp = new URLSearchParams(window.location.search)
+      setQuery(sp.get('q') ?? '')
+      setKind(parseKind(sp.get('kind')))
+      setCraft(parseCraft(sp.get('craft')))
+    }
+    read()
+    window.addEventListener('popstate', read)
+    return () => window.removeEventListener('popstate', read)
+  }, [])
+
   const syncParams = useCallback(
     (next: { kind: KindFilter; craft: CraftFilter; q: string }, push: boolean) => {
-      const sp = new URLSearchParams(params.toString())
+      const sp = new URLSearchParams(window.location.search)
       next.kind === 'All' ? sp.delete('kind') : sp.set('kind', next.kind)
       next.craft === 'All' ? sp.delete('craft') : sp.set('craft', next.craft)
       next.q ? sp.set('q', next.q) : sp.delete('q')
-      const url = sp.size ? `${pathname}?${sp.toString()}` : pathname
+      const url = sp.size
+        ? `${window.location.pathname}?${sp.toString()}`
+        : window.location.pathname
       // Typing should not flood history; a deliberate filter choice should.
-      if (push) router.push(url, { scroll: false })
-      else router.replace(url, { scroll: false })
+      window.history[push ? 'pushState' : 'replaceState']({}, '', url)
     },
-    [params, pathname, router],
+    [],
   )
 
   const pickKind = (option: KindFilter) => {
@@ -82,7 +88,7 @@ function Explorer() {
     setQuery('')
     setKind('All')
     setCraft('All')
-    router.push(pathname, { scroll: false })
+    window.history.pushState({}, '', window.location.pathname)
   }
 
   const filtered = useMemo(() => {
@@ -215,19 +221,5 @@ function Explorer() {
         </motion.div>
       )}
     </div>
-  )
-}
-
-/**
- * Filter state lives in the URL so a filtered view is shareable and the back
- * button walks back through it. The explorer is a client leaf, so it reads the
- * params after hydration; the Suspense boundary is what lets the page around
- * it stay prerendered.
- */
-export function SkillsExplorer() {
-  return (
-    <Suspense fallback={<SkeletonRows />}>
-      <Explorer />
-    </Suspense>
   )
 }
