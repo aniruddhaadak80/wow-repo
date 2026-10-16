@@ -78,6 +78,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
+    {
+      url: `${SITE_URL}/bookmarks`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
     ...slugs.map((slug) => ({
       url: `${SITE_URL}/skills/${slug}`,
       lastModified: now,

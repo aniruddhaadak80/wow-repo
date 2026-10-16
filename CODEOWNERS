@@ -1,0 +1,12 @@
+# CODEOWNERS — wow-repo
+*                                           @aniruddhaadak80
+
+# App + content
+app/                                        @aniruddhaadak80
+content/                                    @aniruddhaadak80
+
+# CI / workflows
+.github/workflows/                          @aniruddhaadak80
+
+# Docs
+README.md                                   @aniruddhaadak80

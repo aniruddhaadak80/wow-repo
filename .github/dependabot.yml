@@ -1,39 +1,23 @@
+# Dependabot — wow-repo
 version: 2
 updates:
-  # Dependencies are the slowest-moving risk in a demo repo: a stale lockfile
-  # breaks `bun install --frozen-lockfile` in CI long before it breaks locally.
-  - package-ecosystem: npm
-    directory: '/'
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: weekly
-      day: monday
-      time: '06:00'
+      interval: "weekly"
     open-pull-requests-limit: 5
-    commit-message:
-      prefix: 'chore'
-      prefixSeparator: ': '
     groups:
-      next:
+      github-actions:
         patterns:
-          - 'next'
-          - 'react'
-          - 'react-dom'
-          - 'eslint-config-next'
-      tooling:
-        patterns:
-          - 'typescript'
-          - 'eslint'
-          - 'prettier'
-          - 'vitest'
-          - '*eslint*'
-          - '*prettier*'
+          - "actions/*"
+          - "oven-sh/*"
 
-  - package-ecosystem: github-actions
-    directory: '/'
+  - package-ecosystem: "bun"
+    directory: "/"
     schedule:
-      interval: weekly
-      day: monday
-      time: '06:00'
-    commit-message:
-      prefix: 'ci'
-      prefixSeparator: ': '
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    groups:
+      bun-deps:
+        patterns:
+          - "*"
