@@ -300,7 +300,38 @@ export default function StatsPage() {
         </div>
       </div>
 
-      <p className="text-muted border-line mt-16 border-t pt-6 text-xs leading-relaxed">
+      <div className="border-line mt-16 border-t pt-8">
+        <p className="mono-label mb-4">The same catalog, other angles</p>
+        <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+          <li>
+            <Link href="/crafts" className="text-ink underline underline-offset-4">
+              By craft
+            </Link>
+          </li>
+          <li>
+            <Link href="/kinds" className="text-ink underline underline-offset-4">
+              By kind
+            </Link>
+          </li>
+          <li>
+            <Link href="/timeline" className="text-ink underline underline-offset-4">
+              By arrival
+            </Link>
+          </li>
+          <li>
+            <Link href="/graph" className="text-ink underline underline-offset-4">
+              By shared trigger
+            </Link>
+          </li>
+          <li>
+            <Link href="/choose" className="text-ink underline underline-offset-4">
+              By goal
+            </Link>
+          </li>
+        </ul>
+      </div>
+
+      <p className="text-muted mt-10 text-xs leading-relaxed">
         Dates, and everything derived from them, are sample catalog data for this demo. Counts,
         shares, and the licence mix are computed from the same file the rest of the site reads.
       </p>

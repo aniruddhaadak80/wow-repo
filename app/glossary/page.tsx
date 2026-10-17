@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { GlossaryBrowser } from '@/components/glossary-browser'
 import { GlossaryEntry } from '@/components/glossary-entry'
 import { getGlossary, getGlossaryCount } from '@/lib/glossary'
@@ -67,6 +68,16 @@ export default function GlossaryPage() {
           })}
         </div>
       </GlossaryBrowser>
+
+      <div className="border-line mt-16 border-t pt-8">
+        <p className="text-muted max-w-[65ch] text-sm">
+          Think you know them? Take the{' '}
+          <Link href="/glossary/quiz" className="text-ink underline underline-offset-4">
+            glossary quiz
+          </Link>
+          : three seeded papers, eight terms each, generated from this same list.
+        </p>
+      </div>
     </section>
   )
 }
