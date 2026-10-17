@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Check, Copy } from '@phosphor-icons/react'
 import { cn } from '@/lib/cn'
 
-export function CopyButton({ text }: { text: string }) {
+export function CopyButton({ text, label }: { text: string; label?: string }) {
   const [copied, setCopied] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -34,7 +34,7 @@ export function CopyButton({ text }: { text: string }) {
         copied ? 'bg-accent text-on-accent' : 'bg-elevated text-muted hover:text-ink',
       )}
       aria-live="polite"
-      aria-label={copied ? 'Copied to clipboard' : `Copy ${text}`}
+      aria-label={copied ? 'Copied to clipboard' : `Copy ${label ?? text}`}
     >
       {copied ? (
         <Check weight="regular" className="h-3.5 w-3.5" />

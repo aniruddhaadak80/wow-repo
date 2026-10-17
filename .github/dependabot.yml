@@ -1,23 +1,23 @@
 # Dependabot — wow-repo
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
     open-pull-requests-limit: 5
     groups:
       github-actions:
         patterns:
-          - "actions/*"
-          - "oven-sh/*"
+          - 'actions/*'
+          - 'oven-sh/*'
 
-  - package-ecosystem: "bun"
-    directory: "/"
+  - package-ecosystem: 'bun'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
     open-pull-requests-limit: 10
     groups:
       bun-deps:
         patterns:
-          - "*"
+          - '*'

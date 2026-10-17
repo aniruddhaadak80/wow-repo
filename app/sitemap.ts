@@ -6,6 +6,7 @@
 export const revalidate = 3600
 
 import type { MetadataRoute } from 'next'
+import { CRAFTS, KINDS } from '@/content/registry'
 import { getEntrySlugs } from '@/lib/registry'
 import { getAfterSlugs } from '@/lib/superintelligence'
 import { getBenchmarkIds } from '@/lib/benchmarks'
@@ -83,6 +84,60 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.6,
+    },
+    {
+      url: `${SITE_URL}/crafts`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    ...CRAFTS.map((craft) => ({
+      url: `${SITE_URL}/crafts/${craft.toLowerCase()}`,
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    })),
+    {
+      url: `${SITE_URL}/kinds`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    ...KINDS.map((kind) => ({
+      url: `${SITE_URL}/kinds/${kind}`,
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    })),
+    {
+      url: `${SITE_URL}/timeline`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    },
+    {
+      url: `${SITE_URL}/choose`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/graph`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    },
+    {
+      url: `${SITE_URL}/changelog`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.5,
+    },
+    {
+      url: `${SITE_URL}/glossary/quiz`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.5,
     },
     ...slugs.map((slug) => ({
       url: `${SITE_URL}/skills/${slug}`,

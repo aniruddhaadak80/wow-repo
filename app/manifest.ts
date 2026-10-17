@@ -45,5 +45,28 @@ export default function manifest(): MetadataRoute.Manifest {
         purpose: 'maskable',
       },
     ],
+    shortcuts: [
+      {
+        name: 'The registry',
+        short_name: 'Registry',
+        description: 'Search every skill, MCP server, API, protocol, harness, and tool.',
+        url: '/skills',
+        icons: [{ src: '/icon.svg', sizes: 'any', type: 'image/svg+xml' }],
+      },
+      {
+        name: 'Choose a stack',
+        short_name: 'Choose',
+        description: 'Answer three questions and get a shortlist with its reasons.',
+        url: '/choose',
+        icons: [{ src: '/icon.svg', sizes: 'any', type: 'image/svg+xml' }],
+      },
+      {
+        name: 'Glossary quiz',
+        short_name: 'Quiz',
+        description: 'Three seeded papers over the vocabulary of the stack.',
+        url: '/glossary/quiz',
+        icons: [{ src: '/icon.svg', sizes: 'any', type: 'image/svg+xml' }],
+      },
+    ],
   }
 }

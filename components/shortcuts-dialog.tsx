@@ -22,6 +22,13 @@ const SHORTCUTS: Shortcut[] = [
   { keys: ['G', 'G'], label: 'Go to the glossary' },
   { keys: ['G', 'B'], label: 'Go to your saved entries' },
   { keys: ['G', 'R'], label: 'Open a random entry' },
+  { keys: ['G', 'K'], label: 'Browse the registry by kind' },
+  { keys: ['G', 'F'], label: 'Browse the registry by craft' },
+  { keys: ['G', 'E'], label: 'Open the trigger map' },
+  { keys: ['G', 'Q'], label: 'Take the glossary quiz' },
+  { keys: ['G', 'W'], label: 'Choose a stack' },
+  { keys: ['G', 'I'], label: 'Open the registry timeline' },
+  { keys: ['G', 'N'], label: 'Open the changelog' },
   { keys: ['?'], label: 'Show this dialog' },
   { keys: ['Esc'], label: 'Close any overlay' },
 ]
@@ -74,6 +81,13 @@ export function ShortcutsDialog() {
         if (second === 'g') router.push('/glossary')
         if (second === 'b') router.push('/bookmarks')
         if (second === 'r') router.push('/random')
+        if (second === 'k') router.push('/kinds')
+        if (second === 'f') router.push('/crafts')
+        if (second === 'e') router.push('/graph')
+        if (second === 'q') router.push('/glossary/quiz')
+        if (second === 'w') router.push('/choose')
+        if (second === 'i') router.push('/timeline')
+        if (second === 'n') router.push('/changelog')
         return
       }
 

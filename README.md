@@ -26,7 +26,17 @@
 
 A production-ready Next.js showcase of the open agent stack: **skills, MCP servers, public APIs, protocols, harnesses, and free software**, in one searchable registry. Built to make people say **wow**.
 
-Most "wow" repos are a hero, three cards, and a gradient. This one is a working product: 108 real registry entries, interactive demos that run on the real catalog, an installable PWA, and a build that ships to **two deploy targets** from the same `main` branch.
+Most "wow" repos are a hero, three cards, and a gradient. This one is a working product: 184 real registry entries, interactive demos that run on the real catalog, an installable PWA, and a build that ships to **two deploy targets** from the same `main` branch.
+
+| Kind          |   Count | What it is                                                                             |
+| ------------- | ------: | -------------------------------------------------------------------------------------- |
+| Skills        |      64 | A `SKILL.md` folder that teaches an agent one capability                               |
+| MCP servers   |      24 | A tool server that speaks the Model Context Protocol                                   |
+| Public APIs   |      26 | An HTTP API an agent can call directly, keys where required                            |
+| Protocols     |      15 | A wire format or contract that lets independent agents and tools understand each other |
+| Harnesses     |      17 | The loop that runs an agent, where skills actually execute                             |
+| Free software |      38 | Open-source runtimes, databases, and inference engines you can self-host               |
+| **Total**     | **184** | Five crafts: Design, DevEx, Content, Research, Multimedia                              |
 
 ## Capabilities
 
@@ -53,7 +63,7 @@ Use this repo as a reference implementation, a starter, or a source of copy-past
 
 | Registry                                                                                                   | Compare                                                                                       |
 | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| <img src="./docs/images/skills.png" alt="The registry: 108 entries with search and filters" width="400" /> | <img src="./docs/images/compare.png" alt="Compare board: entries side by side" width="400" /> |
+| <img src="./docs/images/skills.png" alt="The registry: 184 entries with search and filters" width="400" /> | <img src="./docs/images/compare.png" alt="Compare board: entries side by side" width="400" /> |
 
 <p align="center">
   <img src="./docs/images/docs.png" alt="In-repo docs: architecture, design system, deploy" width="820" />
@@ -88,7 +98,7 @@ Everything runs with **zero API keys**: the catalog, the demos, the swarm runner
 ```mermaid
 flowchart TB
     subgraph content["content/ — typed data, no markup"]
-        REG["registry.ts (108 entries)"]
+        REG["registry.ts (184 entries)"]
         MORE["benchmarks · glossary<br/>findings · docs<br/>superintelligence"]
     end
     subgraph lib["lib/ — queries"]
@@ -160,7 +170,7 @@ flowchart LR
 - Documented z-index scale in `lib/constants.ts`, one accent hue, one easing curve
 - Reduced-motion support everywhere, including scroll-driven motion
 
-**Registry showcase** (`content/registry.ts`, 108 entries across six kinds)
+**Registry showcase** (`content/registry.ts`, 184 entries across six kinds)
 
 - Skills, MCP servers, APIs, protocols, harnesses, and software, each with a real command and a real link
 - `/skills` index with search, kind tabs, and craft filters; `/skills/[slug]` detail pages with triggers, copyable command, and related entries

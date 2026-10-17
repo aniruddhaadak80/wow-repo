@@ -64,6 +64,46 @@ export const docs: DocPage[] = [
     ],
   },
   {
+    slug: 'derived-views',
+    title: 'Deriving many pages from one catalog',
+    group: 'Architecture',
+    summary:
+      'Crafts, kinds, timeline, the relationship map, the chooser, and the quiz are all computed from the same registry rather than typed out again.',
+    sections: [
+      {
+        heading: 'One dataset, six angles',
+        body: 'The catalog is written once in content/registry.ts. Everything that browses it is a pure function in lib/ that re-reads those rows: taxonomy.ts groups them by craft and kind, timeline.ts orders them by arrival, relations.ts joins them by shared triggers, and chooser.ts scores them against a stated goal. Add an entry and every one of those pages moves.',
+        code: [
+          {
+            label: 'lib/taxonomy.ts',
+            source: `export function getCraftView(craft: Craft): CraftView {
+  const pool = entries.filter((entry) => entry.craft === craft)
+  // ...
+  return { craft, count: pool.length, entries, byKind, topTriggers, newest }
+}`,
+          },
+        ],
+      },
+      {
+        heading: 'Deterministic by design',
+        body: 'The relationship map lays out its nodes on a fixed circle rather than simulating physics, and the quiz shuffles with a seeded generator. The same catalog always produces the same picture and the same paper, which makes both of them testable and keeps screenshots from drifting between runs.',
+        code: [
+          {
+            label: 'lib/quiz.ts',
+            source: `export function buildQuiz(count = 8, seed = 1): QuizQuestion[] {
+  const rand = mulberry32(seed)
+  // ...
+}`,
+          },
+        ],
+      },
+      {
+        heading: 'The engine stays out of the bundle',
+        body: 'The stack chooser runs in the browser, but the registry does not travel with it. lib/chooser.ts imports only types, so the island can score against a slim catalog that the server builds in chooser-catalog.ts: names, kinds, tags, commands. Five hundred lines of descriptions never cross the wire.',
+      },
+    ],
+  },
+  {
     slug: 'design-system',
     title: 'The design system in one page',
     group: 'Design system',

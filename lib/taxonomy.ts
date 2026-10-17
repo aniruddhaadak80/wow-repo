@@ -132,7 +132,10 @@ export function getRelatedCrafts(craft: Craft, count = 2): Craft[] {
   return CRAFTS.filter((other) => other !== craft)
     .map((other) => ({
       craft: other,
-      score: overlap(own, entries.filter((entry) => entry.craft === other)),
+      score: overlap(
+        own,
+        entries.filter((entry) => entry.craft === other),
+      ),
     }))
     .sort((a, b) => b.score - a.score || a.craft.localeCompare(b.craft))
     .slice(0, count)
@@ -145,7 +148,10 @@ export function getRelatedKinds(kind: Kind, count = 3): Kind[] {
   return KINDS.filter((other) => other !== kind)
     .map((other) => ({
       kind: other,
-      score: overlap(own, entries.filter((entry) => entry.kind === other)),
+      score: overlap(
+        own,
+        entries.filter((entry) => entry.kind === other),
+      ),
     }))
     .sort((a, b) => b.score - a.score || a.kind.localeCompare(b.kind))
     .slice(0, count)

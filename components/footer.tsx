@@ -12,7 +12,7 @@ export function Footer() {
           aria-hidden="true"
         />
 
-        <div className="border-line mt-10 grid gap-10 border-t pt-8 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
+        <div className="border-line mt-10 grid gap-10 border-t pt-8 md:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
           <div>
             <p className="text-muted max-w-[42ch] text-sm leading-relaxed">
               A production-ready Next.js showcase of curated agent skills. Installable capabilities
@@ -159,6 +159,47 @@ export function Footer() {
               <li>
                 <Link href="/random" className="text-muted hover:text-ink transition-colors">
                   Surprise me
+                </Link>
+              </li>
+            </ul>
+          </nav>
+
+          <nav aria-label="Structure">
+            <p className="mono-label mb-3">Structure</p>
+            <ul className="space-y-2.5 text-sm">
+              <li>
+                <Link href="/kinds" className="text-muted hover:text-ink transition-colors">
+                  Browse by kind
+                </Link>
+              </li>
+              <li>
+                <Link href="/crafts" className="text-muted hover:text-ink transition-colors">
+                  Browse by craft
+                </Link>
+              </li>
+              <li>
+                <Link href="/graph" className="text-muted hover:text-ink transition-colors">
+                  Trigger map
+                </Link>
+              </li>
+              <li>
+                <Link href="/timeline" className="text-muted hover:text-ink transition-colors">
+                  Timeline
+                </Link>
+              </li>
+              <li>
+                <Link href="/choose" className="text-muted hover:text-ink transition-colors">
+                  Stack chooser
+                </Link>
+              </li>
+              <li>
+                <Link href="/glossary/quiz" className="text-muted hover:text-ink transition-colors">
+                  Glossary quiz
+                </Link>
+              </li>
+              <li>
+                <Link href="/changelog" className="text-muted hover:text-ink transition-colors">
+                  Changelog
                 </Link>
               </li>
             </ul>
