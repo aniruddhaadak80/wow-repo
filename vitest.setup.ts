@@ -24,8 +24,15 @@ if (!window.matchMedia) {
 }
 
 if (!('IntersectionObserver' in window)) {
-  class NoopIntersectionObserver implements IntersectionObserver {
-    readonly root: Element | null = null
+  /*
+   * Deliberately not declared as `implements IntersectionObserver`. That
+   * interface gains members as TypeScript and @types/node move, and a
+   * structural implements turns each bump into a build failure. Motion only
+   * calls observe, unobserve, disconnect, and takeRecords, so those are all
+   * this has to provide.
+   */
+  class NoopIntersectionObserver {
+    readonly root: Element | Document | null = null
     readonly rootMargin: string = ''
     readonly thresholds: ReadonlyArray<number> = []
     observe() {}
@@ -35,13 +42,17 @@ if (!('IntersectionObserver' in window)) {
       return []
     }
   }
+  const Stub = NoopIntersectionObserver as unknown as {
+    new (): IntersectionObserver
+    prototype: IntersectionObserver
+  }
   Object.defineProperty(window, 'IntersectionObserver', {
     writable: true,
-    value: NoopIntersectionObserver,
+    value: Stub,
   })
   Object.defineProperty(globalThis, 'IntersectionObserver', {
     writable: true,
-    value: NoopIntersectionObserver,
+    value: Stub,
   })
 }
 
