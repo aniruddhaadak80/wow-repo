@@ -183,6 +183,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/matrix" className="text-muted hover:text-ink transition-colors">
+                  Coverage matrix
+                </Link>
+              </li>
+              <li>
                 <Link href="/timeline" className="text-muted hover:text-ink transition-colors">
                   Timeline
                 </Link>

@@ -128,6 +128,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     },
     {
+      url: `${SITE_URL}/matrix`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    },
+    {
       url: `${SITE_URL}/changelog`,
       lastModified: now,
       changeFrequency: 'weekly',

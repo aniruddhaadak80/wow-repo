@@ -80,12 +80,12 @@ Use this repo as a reference implementation, a starter, or a source of copy-past
 | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | <img src="./docs/images/bookmarks.png" alt="Saved entries: a local shelf with no account" width="400" /> | <img src="./docs/images/benchmarks.png" alt="Benchmark scoreboard: sortable runs over typed content" width="400" /> |
 
-| Crafts                                                                                       | Kinds                                                                                       |
-| -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Crafts                                                                                                        | Kinds                                                                                                   |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | <img src="./docs/images/crafts.png" alt="Crafts: the catalog sorted by the work it helps with" width="400" /> | <img src="./docs/images/kinds.png" alt="Kinds: the catalog sorted by the shape of entry" width="400" /> |
 
-| Relationship map                                                                                                              | Stack chooser                                                                                                              |
-| ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Relationship map                                                                                                              | Stack chooser                                                                                                                      |
+| ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | <img src="./docs/images/graph.png" alt="Relationship map: triggers joined by the entries that carry them both" width="400" /> | <img src="./docs/images/choose.png" alt="Stack chooser: three questions, a shortlist, and the reason for each pick" width="400" /> |
 
 <p align="center">

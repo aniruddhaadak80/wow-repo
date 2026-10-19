@@ -13,6 +13,7 @@ import {
   Clock,
   Flask,
   Graph,
+  GridFour,
   ListChecks,
   MagnifyingGlass,
   MagicWand,
@@ -176,6 +177,13 @@ function PalettePanel() {
         hint: 'Page',
         icon: <Graph weight="regular" className="h-4 w-4" />,
         run: () => router.push('/graph'),
+      },
+      {
+        id: 'action-matrix',
+        label: 'Coverage matrix',
+        hint: 'Page',
+        icon: <GridFour weight="regular" className="h-4 w-4" />,
+        run: () => router.push('/matrix'),
       },
       {
         id: 'action-changelog',

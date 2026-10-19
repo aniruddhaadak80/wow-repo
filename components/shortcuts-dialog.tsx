@@ -25,6 +25,7 @@ const SHORTCUTS: Shortcut[] = [
   { keys: ['G', 'K'], label: 'Browse the registry by kind' },
   { keys: ['G', 'F'], label: 'Browse the registry by craft' },
   { keys: ['G', 'E'], label: 'Open the trigger map' },
+  { keys: ['G', 'M'], label: 'Open the coverage matrix' },
   { keys: ['G', 'Q'], label: 'Take the glossary quiz' },
   { keys: ['G', 'W'], label: 'Choose a stack' },
   { keys: ['G', 'I'], label: 'Open the registry timeline' },
@@ -84,6 +85,7 @@ export function ShortcutsDialog() {
         if (second === 'k') router.push('/kinds')
         if (second === 'f') router.push('/crafts')
         if (second === 'e') router.push('/graph')
+        if (second === 'm') router.push('/matrix')
         if (second === 'q') router.push('/glossary/quiz')
         if (second === 'w') router.push('/choose')
         if (second === 'i') router.push('/timeline')
