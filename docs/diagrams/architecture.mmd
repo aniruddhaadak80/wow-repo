@@ -2,12 +2,13 @@
 %% Every page is a server component; only interactive leaves ship JS.
 flowchart TB
     subgraph content["content/ — typed data, no markup"]
-        REG["registry.ts<br/>108 entries, 6 kinds"]
+        REG["registry.ts<br/>184 entries, 6 kinds"]
         BENCH["benchmarks.ts"]
         FIND["findings.ts"]
         SUPER["superintelligence.ts"]
         DOCS["docs.ts"]
         PREFLIGHT["preflight.ts"]
+        CHANGELOG["changelog.ts<br/>releases from git history"]
     end
 
     subgraph lib["lib/ — queries and rules"]
@@ -15,6 +16,8 @@ flowchart TB
         DQ["docs.ts, compare.ts<br/>superintelligence.ts"]
         CONST["constants.ts<br/>EASE, Z scale, SITE_URL"]
         PAGES["pages-export.ts<br/>IS_PAGES_EXPORT"]
+        DERIVED["taxonomy.ts, timeline.ts<br/>relations.ts, quiz.ts"]
+        CHOOSE["chooser.ts (pure scoring)<br/>chooser-catalog.ts (registry access)"]
     end
 
     subgraph app["app/ — routes"]
@@ -26,6 +29,11 @@ flowchart TB
         CMP["/compare"]
         DOCP["/docs"]
         RAND["/random"]
+        TAX["/crafts + /crafts/[craft]<br/>/kinds + /kinds/[kind]"]
+        TIME["/timeline, /changelog"]
+        GRAPH["/graph"]
+        PICK["/choose"]
+        QUIZ["/glossary/quiz"]
         API["/api/* (Vercel only)"]
         META["sitemap, robots, manifest<br/>opengraph-image, feed.xml"]
     end
@@ -38,14 +46,25 @@ flowchart TB
         PALETTE["command palette"]
         TABBAR["mobile tab bar"]
         KEYS["shortcuts dialog"]
+        MAP["relationship map"]
+        STACK["stack chooser"]
+        PAPER["glossary quiz"]
     end
 
     REG --> RQ
+    REG --> DERIVED
+    REG --> CHOOSE
     BENCH --> DQ
     FIND --> DQ
     SUPER --> DQ
     DOCS --> DQ
     PREFLIGHT --> DQ
+    CHANGELOG --> TIME
+    DERIVED --> TAX
+    DERIVED --> TIME
+    DERIVED --> GRAPH
+    DERIVED --> QUIZ
+    CHOOSE --> PICK
 
     RQ --> HOME
     RQ --> SKILLS
@@ -63,4 +82,7 @@ flowchart TB
     HOME --> PALETTE
     HOME --> TABBAR
     CMP --> BOARD
+    GRAPH --> MAP
+    PICK --> STACK
+    QUIZ --> PAPER
     HOME --> KEYS

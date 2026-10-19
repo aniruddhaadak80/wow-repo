@@ -50,9 +50,12 @@ Use this repo as a reference implementation, a starter, or a source of copy-past
 | **URL as state**                    | Your filter/selection UI should be shareable and reload-safe                       | `components/compare-board.tsx` (`useSyncExternalStore`)      |
 | **Design-token discipline**         | One accent, one radius scale, one z-index scale, enforced                          | `app/globals.css`, `lib/constants.ts`                        |
 | **Motion with a reason**            | Transform + opacity only, `useReducedMotion` everywhere                            | `components/sections/manifesto.tsx`                          |
-| **Dataset integrity tests**         | Your content modules should fail CI when malformed                                 | `content/*.test.ts` (187 tests total)                        |
+| **Dataset integrity tests**         | Your content modules should fail CI when malformed                                 | `content/*.test.ts` (251 tests total)                        |
 | **Local-first state**               | Saves, recents, and filters should work with no account and no backend             | `lib/local-collections.ts`, `components/bookmark-button.tsx` |
 | **Derived analytics**               | A dashboard should compute from the data, never from hand-typed numbers            | `lib/stats.ts`, `app/stats/page.tsx`                         |
+| **Explainable recommendations**     | A recommender should show its scoring rules, not just its output                   | `lib/chooser.ts`, `components/stack-chooser.tsx`             |
+| **Graphs from metadata**            | Derive a relationship map from tags instead of drawing one by hand                 | `lib/relations.ts`, `app/graph/page.tsx`                     |
+| **Slim payloads to the client**     | Ship an interactive scorer without shipping the whole catalog                      | `lib/chooser-catalog.ts`                                     |
 | **Lighthouse as a gate**            | Accessibility and perf regressions block the merge                                 | `.lighthouserc.json`, `.github/workflows/lighthouse.yml`     |
 
 ## Screenshots
@@ -77,8 +80,18 @@ Use this repo as a reference implementation, a starter, or a source of copy-past
 | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | <img src="./docs/images/bookmarks.png" alt="Saved entries: a local shelf with no account" width="400" /> | <img src="./docs/images/benchmarks.png" alt="Benchmark scoreboard: sortable runs over typed content" width="400" /> |
 
+| Crafts                                                                                       | Kinds                                                                                       |
+| -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| <img src="./docs/images/crafts.png" alt="Crafts: the catalog sorted by the work it helps with" width="400" /> | <img src="./docs/images/kinds.png" alt="Kinds: the catalog sorted by the shape of entry" width="400" /> |
+
+| Relationship map                                                                                                              | Stack chooser                                                                                                              |
+| ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| <img src="./docs/images/graph.png" alt="Relationship map: triggers joined by the entries that carry them both" width="400" /> | <img src="./docs/images/choose.png" alt="Stack chooser: three questions, a shortlist, and the reason for each pick" width="400" /> |
+
 <p align="center">
   <img src="./docs/images/skill-detail.png" alt="Skill detail page with copyable command" width="400" />
+  &nbsp;
+  <img src="./docs/images/quiz.png" alt="Glossary quiz: seeded papers over the vocabulary of the stack" width="400" />
   &nbsp;
   <img src="./docs/images/home-mobile.png" alt="Mobile: PWA with five-tab bar including a Saved tab and live count" width="200" />
 </p>
@@ -102,10 +115,10 @@ flowchart TB
         MORE["benchmarks · glossary<br/>findings · docs<br/>superintelligence"]
     end
     subgraph lib["lib/ — queries"]
-        Q["getEntries · queryEntries<br/>buildCompareRows · pages-export<br/>registryStats · queryGlossary"]
+        Q["getEntries · queryEntries<br/>buildCompareRows · pages-export<br/>registryStats · queryGlossary<br/>taxonomy · timeline · relations · chooser"]
     end
     subgraph app["app/ — server components"]
-        P["/ · /skills · /compare<br/>/docs · /agents · /discoveries<br/>/stats · /glossary · /bookmarks · /benchmarks"]
+        P["/ · /skills · /compare<br/>/docs · /agents · /discoveries<br/>/stats · /glossary · /bookmarks · /benchmarks<br/>/crafts · /kinds · /timeline · /graph · /choose<br/>/changelog · /glossary/quiz"]
         API["/api/* — Vercel only"]
     end
     subgraph islands["Client leaves — the only JS shipped"]
@@ -201,6 +214,15 @@ flowchart LR
 - `/bookmarks`: a private shelf kept in this browser through `useSyncExternalStore`, no account and no backend, reachable from a live-count tab on mobile
 - Recently viewed and share surfaces: the last entries you opened, and a share button that uses the Web Share API with a copy fallback
 
+**Derived views over one catalog**
+
+- `/crafts` and `/kinds`: the two axes of the catalog as browsable pages, each with counts, top triggers, and cross-links that a test keeps pointing at real entries
+- `/timeline`: every entry in the order it arrived, month by month, with the sample catalog dates labelled as such
+- `/graph`: a relationship map of triggers that travel together, laid out deterministically on the server and interactive on hover or focus
+- `/choose`: a stack chooser that scores the catalog against a goal and prints the reason behind every pick, with the shortlist copyable as a bash script or Markdown
+- `/glossary/quiz`: three seeded question papers generated from the same glossary the glossary page renders
+- `/changelog`: the site's own releases, read straight from the commit history
+
 **Platform**
 
 - Static generation with ISR (`revalidate = 3600`); `generateStaticParams` for every registry route
@@ -216,7 +238,8 @@ app/                    # App Router: pages, API routes, metadata routes
 components/             # Section components and client islands
 components/sections/    # One file per page section
 content/                # Typed content modules (+ co-located tests)
-lib/                    # Queries, constants, stats/glossary/compare/docs helpers,
+lib/                    # Queries, constants, and the derived views: stats, glossary,
+                        # compare, docs, taxonomy, timeline, relations, chooser,
                         # and local-collections.ts (the localStorage store)
 docs/diagrams/          # Mermaid sources for the diagrams above
 docs/images/            # Banner, logo, and real screenshots
